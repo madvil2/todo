@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import {} from "antd";
+import React from "react";
 import Sidebar from "./components/Sidebar/";
 import { BarsOutlined } from "@ant-design/icons";
 import "./index.scss";
@@ -7,7 +6,8 @@ import AddNewType from "./components/AddNewType/";
 
 import { connect } from "react-redux";
 
-function App({ menu, colors }) {
+function App({ lists, colors }) {
+  window.lists = lists;
   return (
     <div className="todo">
       <div className="todo__sidebar">
@@ -19,7 +19,7 @@ function App({ menu, colors }) {
             },
           ]}
         />
-        <Sidebar items={menu} onRemove={() => {}} isRemovable />
+        <Sidebar items={lists} onRemove={() => {}} isRemovable />
         <AddNewType colors={colors} />
       </div>
       <div className="todo__tasks"></div>
@@ -28,6 +28,6 @@ function App({ menu, colors }) {
 }
 
 export default connect((state) => ({
-  menu: state.todos.lists,
+  lists: state.todos.lists,
   colors: state.todos.colors,
 }))(App);

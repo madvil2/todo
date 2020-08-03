@@ -1,18 +1,17 @@
 import React from "react";
 import classNames from "classname";
-import { CloseOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-
+import { removeList } from "../../redux/actions/todos";
 import Badge from "../Badge";
 
 import "./Sidebar.scss";
 
-const Sidebar = ({ items, isRemovable, onClick, onRemove, lists, colors }) => {
-  const removeList = (item) => {
-    if (window.confirm("Are u sure?")) {
-      onRemove(item);
-    }
+const Sidebar = ({ items, isRemovable, onClick, colors, removeList }) => {
+  const handleOnClick = ({ target }) => {
+    removeList({ id: target.dataset["id"] });
   };
+  window.colors = colors;
+  window.items = items;
   return (
     <ul onClick={onClick} className="sidebar">
       {items.map((item, index) => (
@@ -20,25 +19,33 @@ const Sidebar = ({ items, isRemovable, onClick, onRemove, lists, colors }) => {
           key={index}
           className={classNames(item.className, { active: item.active })}
         >
-          <i>
-            {item.icon ? (
-              item.icon
-            ) : (
-              <Badge
-                color={
-                  colors.filter((val) =>
-                    val.id === item.colorId ? val.name : null
-                  )[0].name
-                }
-              />
-            )}
-          </i>
-          <span>{item.name}</span>
+          <div>
+            <i>
+              {item.icon ? (
+                item.icon
+              ) : (
+                <Badge
+                  color={
+                    colors.filter((val) => val.id === item.colorId)[0].name
+                  }
+                />
+              )}
+            </i>
+            <span>{item.name}</span>
+          </div>
           {isRemovable && (
-            <CloseOutlined
+            <div
               className="sidebar__remove-icon"
-              onClick={() => removeList(item)}
-            />
+              data-id={item.id}
+              onClick={handleOnClick}
+            >
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
+                data-id={item.id}
+                width="14"
+                height="14"
+              />
+            </div>
           )}
         </li>
       ))}
@@ -46,6 +53,9 @@ const Sidebar = ({ items, isRemovable, onClick, onRemove, lists, colors }) => {
   );
 };
 
-export default connect((state) => ({
-  colors: state.todos.colors,
-}))(Sidebar);
+export default connect(
+  (state) => ({
+    colors: state.todos.colors,
+  }),
+  { removeList }
+)(Sidebar);

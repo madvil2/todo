@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Sidebar from "../Sidebar/";
-import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
 import Badge from "../Badge";
 import "antd/dist/antd.css";
+import { v4 as uuidv4 } from "uuid";
+
 import { addList } from "../../redux/actions/todos";
 import { connect } from "react-redux";
+import useOutsideClick from "../../utils/clickOutside";
 
 import "./AddNewType.scss";
 
@@ -20,6 +23,9 @@ const AddNewType = ({ colors, addList }) => {
     selectColor(colors[0].id);
   };
 
+  const ref = useRef(null);
+  useOutsideClick(ref, onClose);
+
   const error = () => {
     message.error("Fill name");
   };
@@ -32,7 +38,7 @@ const AddNewType = ({ colors, addList }) => {
     window.colors = colors;
     const color = colors.filter((c) => c.id === selectedColor)[0].id;
     addList({
-      id: Math.random(),
+      id: uuidv4(),
       name: inputValue,
       colorId: color,
     });
@@ -52,11 +58,7 @@ const AddNewType = ({ colors, addList }) => {
         ]}
       />
       {visiblePopup && (
-        <div className="add-new__popup">
-          <CloseCircleOutlined
-            onClick={onClose}
-            className="add-new__popup-close-btn"
-          />
+        <div className="add-new__popup" ref={ref}>
           <Input
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}

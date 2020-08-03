@@ -9,6 +9,7 @@
     }
   }
   li {
+    position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -17,6 +18,8 @@
       opacity: 0.2;
     }
     #{$self}__remove-icon {
+      position: absolute;
+      right: 20px;
       opacity: 0;
       &:hover {
         opacity: 0.8;
