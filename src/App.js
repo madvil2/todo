@@ -1,12 +1,11 @@
 import React from "react";
-import Sidebar from "./components/Sidebar/";
 import { BarsOutlined } from "@ant-design/icons";
 import "./index.scss";
-import AddNewType from "./components/AddNewType/";
+import { AddNewType, Sidebar, Tasks } from "./components";
 
 import { connect } from "react-redux";
 
-function App({ lists, colors }) {
+function App({ lists, colors, tasks }) {
   window.lists = lists;
   return (
     <div className="todo">
@@ -22,7 +21,9 @@ function App({ lists, colors }) {
         <Sidebar items={lists} onRemove={() => {}} isRemovable />
         <AddNewType colors={colors} />
       </div>
-      <div className="todo__tasks"></div>
+      <div className="todo__tasks">
+        {lists && <Tasks lists={lists} tasks={tasks} />}
+      </div>
     </div>
   );
 }

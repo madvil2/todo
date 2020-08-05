@@ -10,7 +10,32 @@ if (
   !Todos.lists.length >= 8
 ) {
   Todos = {
-    tasks: [],
+    tasks: [
+      {
+        id: 1,
+        listId: 2,
+        text: "Изучить JavaScript",
+        completed: false,
+      },
+      {
+        id: 2,
+        listId: 2,
+        text: "Изучить паттерны проектирования",
+        completed: false,
+      },
+      {
+        id: 3,
+        listId: 2,
+        text: "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
+        completed: true,
+      },
+      {
+        id: 4,
+        listId: 2,
+        text: "Redux (redux-observable, redux-saga)",
+        completed: false,
+      },
+    ],
     lists: [],
     colors: [
       { id: "1", hex: "#C9D1D3", name: "grey" },

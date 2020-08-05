@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import Sidebar from "../Sidebar/";
 import { PlusOutlined } from "@ant-design/icons";
 import { Input, Button, message } from "antd";
-import Badge from "../Badge";
 import "antd/dist/antd.css";
 import { v4 as uuidv4 } from "uuid";
+
+import { Badge, Sidebar } from "../";
 
 import { addList } from "../../redux/actions/todos";
 import { connect } from "react-redux";
