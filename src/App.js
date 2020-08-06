@@ -5,7 +5,7 @@ import { AddNewType, Sidebar, Tasks } from "./components";
 
 import { connect } from "react-redux";
 
-function App({ lists, colors, tasks }) {
+function App({ todos, lists, colors, tasks }) {
   window.lists = lists;
   return (
     <div className="todo">
@@ -21,14 +21,14 @@ function App({ lists, colors, tasks }) {
         <Sidebar items={lists} onRemove={() => {}} isRemovable />
         <AddNewType colors={colors} />
       </div>
-      <div className="todo__tasks">
-        {lists && <Tasks lists={lists} tasks={tasks} />}
-      </div>
+      <div className="todo__tasks">{lists && <Tasks todos={todos} />}</div>
     </div>
   );
 }
 
 export default connect((state) => ({
+  todos: state.todos,
   lists: state.todos.lists,
   colors: state.todos.colors,
+  tasks: state.todos.tasks,
 }))(App);

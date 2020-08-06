@@ -7,7 +7,8 @@ let Todos = load({ namespace: "todo" }).todos;
 if (
   Todos === undefined ||
   !Object.keys(Todos).length ||
-  !Todos.lists.length >= 8
+  !Todos.lists.length >= 8 ||
+  !Todos.tasks.length >= 4
 ) {
   Todos = {
     tasks: [

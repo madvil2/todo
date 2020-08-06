@@ -12,26 +12,30 @@ import {
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 
-const Tasks = (tasks) => {
-  window.tasks = tasks;
-  console.log(tasks);
+const Tasks = ({ todos }) => {
+  window.todos = todos;
+  console.log(todos);
   return (
     <div className="tasks">
       <h2 className="tasks__title">
-        Frontend
+        {todos.lists[0].name}
         <EditOutlined className="tasks__edit" />
       </h2>
-      <div className="tasks__items">
-        <div className="tasks__items-row">
-          <div className="checkbox">
-            <input id="check" type="checkbox" />
-            <label htmlFor="check">
-              <CheckOutlined className="mark" />
-            </label>
+      {todos.tasks.map((task) => {
+        return (
+          <div className="tasks__items">
+            <div className="tasks__items-row">
+              <div className="checkbox">
+                <input id={`task-${task.id}`} type="checkbox" />
+                <label htmlFor={`task-${task.id}`}>
+                  <CheckOutlined className="mark" />
+                </label>
+              </div>
+              <input value={task.text} />
+            </div>
           </div>
-          <input value="Learn React! (useState, useReducer, useEffects and more)" />
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 };
