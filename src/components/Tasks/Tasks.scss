@@ -1,4 +1,7 @@
 .tasks {
+  &__add-items {
+    display: flex;
+  }
   &__title {
     font-family: Montserrat, serif;
     font-weight: bold;
@@ -23,6 +26,30 @@
       }
     }
 
+    &--grey {
+      color: #c9d1d3;
+    }
+    &--green {
+      color: #42b883;
+    }
+    &--blue {
+      color: #64c4ed;
+    }
+    &--pink {
+      color: #ffbbcc;
+    }
+    &--lime {
+      color: #b6e6bd;
+    }
+    &--purple {
+      color: #c355f5;
+    }
+    &--black {
+      color: #0d001d;
+    }
+    &--red {
+      color: #ff6464;
+    }
 
   }
   &__items {

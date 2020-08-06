@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
 
 import "./AddNewType.scss";
+import classNames from "classname";
 
 const AddNewType = ({ colors, addList }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
@@ -30,7 +31,8 @@ const AddNewType = ({ colors, addList }) => {
     message.error("Fill name");
   };
 
-  const AddNew = () => {
+  const AddNew = (e) => {
+    e.preventDefault();
     if (!inputValue) {
       error();
       return;
@@ -46,19 +48,20 @@ const AddNewType = ({ colors, addList }) => {
   };
 
   return (
-    <div className="add-new">
-      <Sidebar
-        onClick={() => setVisiblePopup(!visiblePopup)}
-        items={[
-          {
-            className: "sidebar__add-button",
-            icon: <PlusOutlined />,
-            name: "Add new",
-          },
-        ]}
-      />
+    <div className="add-new_button">
+      <div
+        className="sidebar__add-button"
+        onClick={() => setVisiblePopup(true)}
+      >
+        <div>
+          <i>
+            <PlusOutlined />
+          </i>
+          <span>Add New Type</span>
+        </div>
+      </div>
       {visiblePopup && (
-        <div className="add-new__popup" ref={ref}>
+        <form className="add-new__popup" ref={ref} onSubmit={AddNew}>
           <Input
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
@@ -77,7 +80,7 @@ const AddNewType = ({ colors, addList }) => {
           <Button onClick={AddNew} type="primary">
             Add new
           </Button>
-        </div>
+        </form>
       )}
     </div>
   );

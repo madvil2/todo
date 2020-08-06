@@ -6,7 +6,15 @@ import Badge from "../Badge";
 
 import "./Sidebar.scss";
 
-const Sidebar = ({ items, isRemovable, onClick, colors, removeList }) => {
+const Sidebar = ({
+  items,
+  isRemovable,
+  onClick,
+  colors,
+  removeList,
+  activeGroup,
+  changeActiveGroup,
+}) => {
   const handleOnClick = ({ target }) => {
     removeList({ id: target.dataset["id"] });
   };
@@ -17,7 +25,15 @@ const Sidebar = ({ items, isRemovable, onClick, colors, removeList }) => {
       {items.map((item, index) => (
         <li
           key={index}
-          className={classNames(item.className, { active: item.active })}
+          className={classNames(item.className, {
+            active: activeGroup.id === item.id,
+          })}
+          onClick={() =>
+            changeActiveGroup({
+              id: item.id,
+              color: item.colorId,
+            })
+          }
         >
           <div>
             <i>

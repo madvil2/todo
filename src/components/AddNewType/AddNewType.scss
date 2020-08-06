@@ -1,3 +1,39 @@
+.sidebar {
+  margin-bottom: 30px;
+  $self: &;
+
+  &__add-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 12px;
+    transition: background-color 0.15s ease-in-out;
+    color: #767676;
+
+    & > div {
+      display: flex;
+      align-items: center;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    span {
+      flex: 1;
+    }
+
+    i {
+      display: inline-flex;
+      margin-right: 8px;
+    }
+
+    &:hover {
+      color: #393939;
+    }
+  }
+}
+
 .add-new {
   &__popup {
     width: 240px;
@@ -8,7 +44,7 @@
     padding: 18px;
     box-sizing: border-box;
     position: relative;
-    top: -25px;
+    top: 0;
     left: 10px;
 
     &-close-btn {

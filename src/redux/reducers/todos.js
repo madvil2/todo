@@ -1,4 +1,4 @@
-import { ADD_LIST, REMOVE_LIST } from "../../constants";
+import { ADD_LIST, REMOVE_LIST, ADD_TASK } from "../../constants";
 import { load, clear } from "redux-localstorage-simple";
 // clear({
 //   namespace: "todo",
@@ -11,32 +11,7 @@ if (
   !Todos.tasks.length >= 4
 ) {
   Todos = {
-    tasks: [
-      {
-        id: 1,
-        listId: 2,
-        text: "Изучить JavaScript",
-        completed: false,
-      },
-      {
-        id: 2,
-        listId: 2,
-        text: "Изучить паттерны проектирования",
-        completed: false,
-      },
-      {
-        id: 3,
-        listId: 2,
-        text: "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-        completed: true,
-      },
-      {
-        id: 4,
-        listId: 2,
-        text: "Redux (redux-observable, redux-saga)",
-        completed: false,
-      },
-    ],
+    tasks: [],
     lists: [],
     colors: [
       { id: "1", hex: "#C9D1D3", name: "grey" },
@@ -52,6 +27,11 @@ if (
 }
 export const todos = function reducer(state = Todos, action) {
   switch (action.type) {
+    case ADD_TASK:
+      return {
+        ...state,
+        tasks: [...state.tasks, action.payload],
+      };
     case ADD_LIST:
       return {
         ...state,
