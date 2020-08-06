@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
 
 import "./AddNewType.scss";
-import classNames from "classname";
 
 const AddNewType = ({ colors, addList }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);

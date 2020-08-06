@@ -24,7 +24,7 @@ const Tasks = ({ todos, activeGroup, lists, addTask, colors }) => {
       return;
     }
     addTask({
-      listId: activeGroup,
+      listId: activeGroup.id,
       text: inputValue,
       status: false,
     });
@@ -74,8 +74,8 @@ const Tasks = ({ todos, activeGroup, lists, addTask, colors }) => {
               <div key={index} className="tasks__items">
                 <div className="tasks__items-row">
                   <div className="checkbox">
-                    <input id={`task-${item.id}`} type="checkbox" />
-                    <label htmlFor={`task-${item.id}`}>
+                    <input id={`task-${index}`} type="checkbox" />
+                    <label htmlFor={`task-${index}`}>
                       <CheckOutlined className="mark" />
                     </label>
                   </div>
