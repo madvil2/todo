@@ -1,13 +1,40 @@
 .tasks {
+  height:100%;
+  padding-bottom: 100px;
+
   &__add-items {
     display: flex;
+    &__picker {
+      margin-right: 5px;
+    }
+    &__add-input {
+      margin-right: 5px;
+      margin-top: 1px;
+      height: 40px;
+    }
+    &__sbutton {
+      width: 152px;
+      height: 42px;
+      border-radius: 21px;
+      background-color: #1890ff;
+      border: 1px solid #1890ff;
+      color: #ffffff;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
+      &:active {
+        background-color: #0e2fa6;
+      }
+    }
   }
+
   &__title {
     font-family: Montserrat, serif;
     font-weight: bold;
     font-size: 32px;
     line-height: 39px;
-    color: #10BF6A;
+    color: #1890ff;
     padding-bottom: 20px;
     border-bottom: 1px solid #f2f2f2;
 
@@ -51,6 +78,11 @@
       color: #ff6464;
     }
 
+  }
+
+  &__list {
+    height:100%;
+    overflow-y: auto;
   }
   &__items {
     margin-top: 30px;
@@ -108,12 +140,4 @@
       }
     }
   }
-  //&__status {
-  //  float: right;
-  //  padding-right: 15px;
-  //  //padding-top: 5px;
-  //}
-  //&__date {
-  //  float: right;
-  //}
 }

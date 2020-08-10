@@ -1,7 +1,6 @@
 .sidebar {
   margin-bottom: 30px;
   $self: &;
-
   &__add-button {
     position: relative;
     display: flex;
@@ -35,6 +34,22 @@
 }
 
 .add-new {
+  &__button {
+    width: 100%;
+    margin-top: 12px;
+    height: 42px;
+    border-radius: 21px;
+    background-color: #1890ff;
+    border: 1px solid #1890ff;
+    color: #ffffff;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      background-color: #0e2fa6;
+    }
+  }
   &__popup {
     width: 240px;
     height: 150px;
@@ -54,10 +69,6 @@
       cursor: pointer;
     }
 
-    .ant-btn {
-      width: 100%;
-      margin-top: 12px;
-    }
     &-colors {
       display: flex;
       justify-content: space-between;
@@ -75,3 +86,4 @@
     }
   }
 }
+

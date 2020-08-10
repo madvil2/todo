@@ -1,32 +1,57 @@
 import React, { useState } from "react";
 import "./Tasks.scss";
-import { Input, Button, message } from "antd";
-import { addTask } from "../../redux/actions/todos";
+import { Input, DatePicker, Space } from "antd";
+import { addTask, setList } from "../../redux/actions/todos";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import classNames from "classnames";
+import moment from "moment";
+import showError from "../../utils/showError";
 
-const Tasks = ({ todos, activeGroup, lists, addTask, colors }) => {
+const Tasks = ({
+  todos,
+  activeGroup,
+  lists,
+  dispatchAddTask,
+  colors,
+  dispatchSetList,
+}) => {
   const [inputValue, setInputValue] = useState("");
+  const [dateValue, setDateValue] = useState("");
 
-  const error = () => {
-    message.error("Fill title");
+  const onEditTitle = (id, title) => {
+    const newList = lists.map((item) => {
+      if (item.id === id) {
+        item.name = title;
+      }
+      return item;
+    });
+    dispatchSetList(newList);
+  };
+
+  const editTitle = () => {
+    const newTitle = window.prompt("Enter new list name", title);
+    if (newTitle) {
+      onEditTitle(activeGroup.id, newTitle);
+    }
   };
 
   const reset = () => {
     setInputValue("");
+    setDateValue("");
   };
 
   const AddNew = (e) => {
     e.preventDefault();
     if (!inputValue) {
-      error();
+      showError("Fill title");
       return;
     }
-    addTask({
+    dispatchAddTask({
       listId: activeGroup.id,
       text: inputValue,
       status: false,
+      date: dateValue,
     });
     reset();
   };
@@ -38,8 +63,6 @@ const Tasks = ({ todos, activeGroup, lists, addTask, colors }) => {
       break;
     }
   }
-  window.todos = todos;
-  console.log(todos);
   let color = colors.filter((val) => val.id === activeGroup.color);
   if (color.length > 0) {
     color = color[0].name;
@@ -55,38 +78,64 @@ const Tasks = ({ todos, activeGroup, lists, addTask, colors }) => {
         })}
       >
         {activeGroup.id === 1 ? "All types" : title}
-        <EditOutlined className="tasks__edit" />
+        {activeGroup.id === 1 ? (
+          ""
+        ) : (
+          <EditOutlined onClick={editTitle} className="tasks__edit" />
+        )}
       </h2>
       <div className="tasks__add-items">
         <Input
+          className="tasks__add-items__add-input"
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder="Enter task title"
         />
-        <Button onClick={AddNew} type="primary">
+        <Space className="tasks__add-items__picker">
+          <DatePicker
+            format="YYYY-MM-DD HH:mm:ss"
+            showTime={{ defaultValue: moment("00:00:00", "HH:mm:ss") }}
+            onChange={(value) => setDateValue(value)}
+            size="large"
+            value={dateValue}
+          />
+        </Space>
+        <button
+          className="tasks__add-items__sbutton"
+          onClick={AddNew}
+          type="primary"
+        >
           Add new
-        </Button>
+        </button>
       </div>
-      {!!todos.tasks.length &&
-        todos.tasks.map((item, index) => {
-          if (activeGroup.id === item.listId || activeGroup.id === 1) {
-            return (
-              <div key={index} className="tasks__items">
-                <div className="tasks__items-row">
-                  <div className="checkbox">
-                    <input id={`task-${index}`} type="checkbox" />
-                    <label htmlFor={`task-${index}`}>
-                      <CheckOutlined className="mark" />
-                    </label>
+      <ul className="tasks__list">
+        {!!todos.tasks.length &&
+          todos.tasks.map((item, index) => {
+            if (activeGroup.id === item.listId || activeGroup.id === 1) {
+              return (
+                <li key={index} className="tasks__items">
+                  <div className="tasks__items-row">
+                    <div className="checkbox">
+                      <input id={`task-${index}`} type="checkbox" />
+                      <label htmlFor={`task-${index}`}>
+                        <CheckOutlined className="mark" />
+                      </label>
+                    </div>
+                    <input readOnly value={item.text} />
                   </div>
-                  <input readOnly value={item.text} />
-                </div>
-              </div>
-            );
-          } else return null;
-        })}
+                </li>
+              );
+            } else return null;
+          })}
+      </ul>
     </div>
   );
 };
 
-export default connect((state) => ({}), { addTask })(Tasks);
+const mapStateToProps = () => ({});
+const mapDispatchToProps = {
+  dispatchAddTask: addTask,
+  dispatchSetList: setList,
+};
+
+export default connect((state) => ({}), mapDispatchToProps)(Tasks);

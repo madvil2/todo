@@ -1,14 +1,15 @@
 import React, { useState, useRef } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { Input, Button, message } from "antd";
+import { Input } from "antd";
 import "antd/dist/antd.css";
 import { v4 as uuidv4 } from "uuid";
 
-import { Badge, Sidebar } from "../";
+import { Badge } from "../";
 
 import { addList } from "../../redux/actions/todos";
 import { connect } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
+import showError from "../../utils/showError";
 
 import "./AddNewType.scss";
 
@@ -26,14 +27,10 @@ const AddNewType = ({ colors, addList }) => {
   const ref = useRef(null);
   useOutsideClick(ref, onClose);
 
-  const error = () => {
-    message.error("Fill name");
-  };
-
   const AddNew = (e) => {
     e.preventDefault();
     if (!inputValue) {
-      error();
+      showError("Fill name");
       return;
     }
     window.colors = colors;
@@ -47,7 +44,7 @@ const AddNewType = ({ colors, addList }) => {
   };
 
   return (
-    <div className="add-new_button">
+    <div>
       <div
         className="sidebar__add-button"
         onClick={() => setVisiblePopup(true)}
@@ -76,9 +73,9 @@ const AddNewType = ({ colors, addList }) => {
               />
             ))}
           </div>
-          <Button onClick={AddNew} type="primary">
+          <button className="add-new__button" onClick={AddNew} type="primary">
             Add new
-          </Button>
+          </button>
         </form>
       )}
     </div>
