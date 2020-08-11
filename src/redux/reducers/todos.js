@@ -41,6 +41,7 @@ export const todos = function reducer(state = Todos, action) {
       return {
         ...state,
         lists: state.lists.filter((val) => val.id !== action.payload.id),
+        tasks: state.tasks.filter((val) => val.listId !== action.payload.id),
       };
     case SET_LIST:
       return {
