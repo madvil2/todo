@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classname";
 import { connect } from "react-redux";
 import { removeList } from "../../redux/actions/todos";
 import Badge from "../Badge";
+import { useHistory } from "react-router-dom";
 
 import "./Sidebar.scss";
 
@@ -18,8 +19,20 @@ const Sidebar = ({
   const handleOnClick = ({ target }) => {
     removeList({ id: target.dataset["id"] });
   };
-  window.colors = colors;
-  window.items = items;
+  let history = useHistory();
+  useEffect(() => {
+    const listId = history.location.pathname.split("types/")[1];
+    // console.log(listId);
+    if (items) {
+      const list = items.find((list) => list.id === listId);
+      if (list) {
+        changeActiveGroup({
+          id: list.id,
+          color: list.colorId,
+        });
+      }
+    }
+  }, [history.location.pathname]);
   return (
     <ul onClick={onClick} className="sidebar">
       {items.map((item, index) => (
@@ -28,12 +41,13 @@ const Sidebar = ({
           className={classNames(item.className, {
             active: activeGroup.id === item.id,
           })}
-          onClick={() =>
+          onClick={() => {
             changeActiveGroup({
               id: item.id,
               color: item.colorId,
-            })
-          }
+            });
+            history.push(`/types/${item.id}`);
+          }}
         >
           <div>
             <i>
@@ -56,6 +70,7 @@ const Sidebar = ({
               onClick={handleOnClick}
             >
               <img
+                alt="remove button"
                 src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
                 data-id={item.id}
                 width="14"

@@ -101,7 +101,7 @@ const Tasks = ({
           />
         </Space>
         <button
-          className="tasks__add-items__sbutton"
+          className="tasks__add-items__button"
           onClick={AddNew}
           type="primary"
         >
@@ -132,7 +132,7 @@ const Tasks = ({
   );
 };
 
-const mapStateToProps = () => ({});
+// const mapStateToProps = () => ({}); // погуглить
 const mapDispatchToProps = {
   dispatchAddTask: addTask,
   dispatchSetList: setList,
