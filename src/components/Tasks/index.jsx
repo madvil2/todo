@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./Tasks.scss";
-import { Input, DatePicker, Space } from "antd";
-import { addTask, setList } from "../../redux/actions/todos";
+import { Input, DatePicker, Space, Popconfirm, message } from "antd";
+import { addTask, setList, removeTask } from "../../redux/actions/todos";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import moment from "moment";
 import showError from "../../utils/showError";
+import { v4 as uuidv4 } from "uuid";
 
 const Tasks = ({
   todos,
@@ -15,6 +16,7 @@ const Tasks = ({
   dispatchAddTask,
   colors,
   dispatchSetList,
+  dispatchRemoveTask,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
@@ -36,6 +38,14 @@ const Tasks = ({
     }
   };
 
+  const onRemoveTask = (taskId) => {
+    dispatchRemoveTask({ taskId });
+  };
+
+  const onEditTask = () => {
+    alert(1);
+  };
+
   const reset = () => {
     setInputValue("");
     setDateValue("");
@@ -48,6 +58,7 @@ const Tasks = ({
       return;
     }
     dispatchAddTask({
+      taskId: uuidv4(),
       listId: activeGroup.id,
       text: inputValue,
       status: false,
@@ -122,6 +133,19 @@ const Tasks = ({
                       </label>
                     </div>
                     <input readOnly value={item.text} />
+                    <div className="tasks__items-row-actions">
+                      <div onClick={onEditTask}>
+                        <EditOutlined />
+                      </div>
+                      <div onClick={() => onRemoveTask(item.taskId)}>
+                        <img
+                          alt="remove button"
+                          src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
+                          width="14"
+                          height="14"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </li>
               );
@@ -136,6 +160,7 @@ const Tasks = ({
 const mapDispatchToProps = {
   dispatchAddTask: addTask,
   dispatchSetList: setList,
+  dispatchRemoveTask: removeTask,
 };
 
 export default connect((state) => ({}), mapDispatchToProps)(Tasks);

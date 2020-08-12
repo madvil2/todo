@@ -19,10 +19,10 @@ const Sidebar = ({
   const handleOnClick = ({ target }) => {
     removeList({ id: target.dataset["id"] });
   };
+
   let history = useHistory();
   useEffect(() => {
     const listId = history.location.pathname.split("types/")[1];
-    // console.log(listId);
     if (items) {
       const list = items.find((list) => list.id === listId);
       if (list) {

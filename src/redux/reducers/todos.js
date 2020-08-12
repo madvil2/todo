@@ -1,4 +1,10 @@
-import { ADD_LIST, REMOVE_LIST, ADD_TASK, SET_LIST } from "../../constants";
+import {
+  ADD_LIST,
+  REMOVE_LIST,
+  ADD_TASK,
+  SET_LIST,
+  REMOVE_TASK,
+} from "../../constants";
 import { load, clear } from "redux-localstorage-simple";
 // clear({
 //   namespace: "todo",
@@ -47,6 +53,14 @@ export const todos = function reducer(state = Todos, action) {
       return {
         ...state,
         lists: action.payload,
+      };
+    case REMOVE_TASK:
+      alert(JSON.stringify(action.payload));
+      return {
+        ...state,
+        tasks: state.tasks.filter(
+          (val) => val.taskId !== action.payload.taskId
+        ),
       };
     default:
       return {
