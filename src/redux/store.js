@@ -1,13 +1,8 @@
 import { createStore, compose, applyMiddleware } from "redux";
-// import createSagaMiddleware from "redux-saga";
-// import { sessionService } from 'redux-react-session';
 import { save } from "redux-localstorage-simple";
 
 import { rootReducer } from "./reducers/index";
-//
-// import { rootSaga } from "./sagas/index";
-
-// const sagaMiddleware = createSagaMiddleware();
+import thunk from "redux-thunk";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -20,12 +15,9 @@ const configureStore = (preloadedState) =>
   createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(save({ namespace: "todo" })))
+    composeEnhancers(applyMiddleware(save({ namespace: "todo" }), thunk))
   );
 
 const store = configureStore({});
-
-// sagaMiddleware.run(rootSaga);
-// sessionService.initSessionService(store);
 
 export default store;

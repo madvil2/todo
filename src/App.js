@@ -1,68 +1,78 @@
 import React from "react";
 import { BarsOutlined } from "@ant-design/icons";
 import "./index.scss";
-import { AddNewType, Sidebar, Tasks } from "./components";
+import { AddNewType, Sidebar, TasksBoard, Signin, Signup } from "./components";
 import { Route, useHistory, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
-function App({ todos, lists, colors, tasks }) {
+function App({ todos, lists, colors }) {
   const [activeGroup, setActiveGroup] = React.useState({
     id: 1,
     color: null,
   });
   let history = useHistory();
   return (
-    <div className="todo">
-      <div className="todo__sidebar">
-        <Sidebar
-          onClick={() => history.push(`/`)}
-          items={[
-            {
-              icon: <BarsOutlined />,
-              name: "All types",
-              id: 1,
-            },
-          ]}
-          activeGroup={activeGroup}
-          changeActiveGroup={setActiveGroup}
-        />
-        <Sidebar
-          onClickItem={(list) => {
-            history.push(`/types/${list.id}`);
-          }}
-          items={lists}
-          isRemovable
-          activeGroup={activeGroup}
-          changeActiveGroup={setActiveGroup}
-        />
-        <AddNewType colors={colors} />
-      </div>
+    <>
+      <Route path="/login">
+        <Signin />
+      </Route>
+      <Route path="/register">
+        <Signup />
+      </Route>
+      <Route path="/todo">
+        <div className="todo">
+          <div className="todo__sidebar">
+            <Sidebar
+              onClick={() => history.push(`/todo`)}
+              items={[
+                {
+                  icon: <BarsOutlined />,
+                  name: "All types",
+                  id: 1,
+                },
+              ]}
+              activeGroup={activeGroup}
+              changeActiveGroup={setActiveGroup}
+            />
+            <Sidebar
+              onClickItem={(list) => {
+                history.push(`/todo/types/${list.id}`);
+              }}
+              items={lists}
+              isRemovable
+              activeGroup={activeGroup}
+              changeActiveGroup={setActiveGroup}
+            />
+            <AddNewType colors={colors} />
+          </div>
 
-      <div className="todo__tasks">
-        <Switch>
-          <Route exact path="/">
-            {lists && (
-              <Tasks
-                todos={todos}
-                lists={lists}
-                activeGroup={activeGroup}
-                colors={colors}
-              />
-            )}
-          </Route>
-          <Route path="/types">
-            {lists && (
-              <Tasks
-                todos={todos}
-                lists={lists}
-                activeGroup={activeGroup}
-                colors={colors}
-              />
-            )}
-          </Route>
-        </Switch>
-      </div>
-    </div>
+          <div className="todo__tasks">
+            <Switch>
+              <Route exact path="/todo">
+                {lists && (
+                  <TasksBoard
+                    todos={todos}
+                    lists={lists}
+                    activeGroup={activeGroup}
+                    colors={colors}
+                  />
+                )}
+              </Route>
+              <Route path="/todo/types/">
+                {lists && (
+                  <TasksBoard
+                    todos={todos}
+                    lists={lists}
+                    activeGroup={activeGroup}
+                    colors={colors}
+                  />
+                )}
+              </Route>
+            </Switch>
+          </div>
+        </div>
+      </Route>
+    </>
   );
 }
 

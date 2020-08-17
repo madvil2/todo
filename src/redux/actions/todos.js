@@ -2,8 +2,9 @@ import {
   ADD_TASK,
   ADD_LIST,
   REMOVE_LIST,
-  SET_LIST,
+  EDIT_LIST,
   REMOVE_TASK,
+  EDIT_TASK,
 } from "../../constants";
 
 export const addTask = ({ listId, text, status, date, taskId }) => ({
@@ -26,7 +27,12 @@ export const removeList = ({ id }) => ({
   payload: { id },
 });
 
-export const setList = (list) => ({
-  type: SET_LIST,
+export const editList = (list) => ({
+  type: EDIT_LIST,
+  payload: list,
+});
+
+export const editTask = (list) => ({
+  type: EDIT_TASK,
   payload: list,
 });

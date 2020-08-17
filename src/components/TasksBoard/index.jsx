@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "./Tasks.scss";
-import { Input, DatePicker, Space, Popconfirm, message } from "antd";
-import { addTask, setList, removeTask } from "../../redux/actions/todos";
+import { Input, DatePicker, Space, Popconfirm, message, Modal } from "antd";
+import { addTask, editList, removeTask } from "../../redux/actions/todos";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import moment from "moment";
 import showError from "../../utils/showError";
 import { v4 as uuidv4 } from "uuid";
+import { Task } from "../";
 
 const Tasks = ({
   todos,
@@ -16,7 +17,6 @@ const Tasks = ({
   dispatchAddTask,
   colors,
   dispatchSetList,
-  dispatchRemoveTask,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
@@ -36,14 +36,6 @@ const Tasks = ({
     if (newTitle) {
       onEditTitle(activeGroup.id, newTitle);
     }
-  };
-
-  const onRemoveTask = (taskId) => {
-    dispatchRemoveTask({ taskId });
-  };
-
-  const onEditTask = () => {
-    alert(1);
   };
 
   const reset = () => {
@@ -124,30 +116,12 @@ const Tasks = ({
           todos.tasks.map((item, index) => {
             if (activeGroup.id === item.listId || activeGroup.id === 1) {
               return (
-                <li key={index} className="tasks__items">
-                  <div className="tasks__items-row">
-                    <div className="checkbox">
-                      <input id={`task-${index}`} type="checkbox" />
-                      <label htmlFor={`task-${index}`}>
-                        <CheckOutlined className="mark" />
-                      </label>
-                    </div>
-                    <input readOnly value={item.text} />
-                    <div className="tasks__items-row-actions">
-                      <div onClick={onEditTask}>
-                        <EditOutlined />
-                      </div>
-                      <div onClick={() => onRemoveTask(item.taskId)}>
-                        <img
-                          alt="remove button"
-                          src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
-                          width="14"
-                          height="14"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                <Task
+                  index={index}
+                  task={item}
+                  activeGroup={activeGroup}
+                  todos={todos}
+                />
               );
             } else return null;
           })}
@@ -159,8 +133,7 @@ const Tasks = ({
 // const mapStateToProps = () => ({}); // погуглить
 const mapDispatchToProps = {
   dispatchAddTask: addTask,
-  dispatchSetList: setList,
-  dispatchRemoveTask: removeTask,
+  dispatchSetList: editList,
 };
 
 export default connect((state) => ({}), mapDispatchToProps)(Tasks);

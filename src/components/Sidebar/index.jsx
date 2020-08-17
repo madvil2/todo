@@ -22,7 +22,7 @@ const Sidebar = ({
 
   let history = useHistory();
   useEffect(() => {
-    const listId = history.location.pathname.split("types/")[1];
+    const listId = history.location.pathname.split("/todo/types/")[1];
     if (items) {
       const list = items.find((list) => list.id === listId);
       if (list) {
@@ -46,7 +46,7 @@ const Sidebar = ({
               id: item.id,
               color: item.colorId,
             });
-            history.push(`/types/${item.id}`);
+            history.push(`/todo/types/${item.id}`);
           }}
         >
           <div>

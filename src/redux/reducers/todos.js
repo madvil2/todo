@@ -2,10 +2,12 @@ import {
   ADD_LIST,
   REMOVE_LIST,
   ADD_TASK,
-  SET_LIST,
+  EDIT_LIST,
   REMOVE_TASK,
+  EDIT_TASK,
 } from "../../constants";
 import { load, clear } from "redux-localstorage-simple";
+
 // clear({
 //   namespace: "todo",
 // });
@@ -49,18 +51,22 @@ export const todos = function reducer(state = Todos, action) {
         lists: state.lists.filter((val) => val.id !== action.payload.id),
         tasks: state.tasks.filter((val) => val.listId !== action.payload.id),
       };
-    case SET_LIST:
+    case EDIT_LIST:
       return {
         ...state,
         lists: action.payload,
       };
     case REMOVE_TASK:
-      alert(JSON.stringify(action.payload));
       return {
         ...state,
         tasks: state.tasks.filter(
           (val) => val.taskId !== action.payload.taskId
         ),
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        tasks: action.payload,
       };
     default:
       return {
