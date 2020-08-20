@@ -2,6 +2,8 @@ import { Form, Input, Button, Checkbox } from "antd";
 import React from "react";
 import "./Signin.scss";
 import { Link, Route } from "react-router-dom";
+import { fetchSigninUser, requestAction } from "../../redux/actions/users.js";
+import { connect, useDispatch } from "react-redux";
 
 const layout = {
   labelCol: {
@@ -18,17 +20,21 @@ const tailLayout = {
   },
 };
 
-const Signin = () => {
+const Signin = (isLoading) => {
+  const dispatch = useDispatch();
   const onFinish = (values) => {
+    dispatch(fetchSigninUser(values.username, values.password));
     console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
+    // fetchSigninUser(errorInfo.values.username, errorInfo.values.password);
     console.log("Failed:", errorInfo);
   };
 
   return (
     <div className="login-page">
+      {}
       <div className="form">
         <div className="login-form">
           <Form
@@ -88,5 +94,10 @@ const Signin = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({});
 
-export default Signin;
+const mapDispatchToProps = {
+  dispatchRequestAction: requestAction,
+};
+
+export default connect((state) => ({}), mapDispatchToProps)(Signin);

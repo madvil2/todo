@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Tasks.scss";
+import "./TasksBoard.scss";
 import { Input, DatePicker, Space, Popconfirm, message, Modal } from "antd";
 import { addTask, editList, removeTask } from "../../redux/actions/todos";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";

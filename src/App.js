@@ -2,7 +2,7 @@ import React from "react";
 import { BarsOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { AddNewType, Sidebar, TasksBoard, Signin, Signup } from "./components";
-import { Route, useHistory, Switch } from "react-router-dom";
+import { Route, useHistory, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 function App({ todos, lists, colors }) {
@@ -13,13 +13,17 @@ function App({ todos, lists, colors }) {
   let history = useHistory();
   return (
     <>
-      <Route path="/login">
-        <Signin />
+      <Route exact path="/">
+        {localStorage.getItem("token") ? (
+          <Redirect to="/todo" />
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
-      <Route path="/register">
-        <Signup />
-      </Route>
+      <Route path="/login" component={Signin} />
+      <Route path="/register" component={Signup} />
       <Route path="/todo">
+        {localStorage.getItem("token") ? "" : <Redirect to="/login" />}
         <div className="todo">
           <div className="todo__sidebar">
             <Sidebar
@@ -44,6 +48,13 @@ function App({ todos, lists, colors }) {
               changeActiveGroup={setActiveGroup}
             />
             <AddNewType colors={colors} />
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+              }}
+            >
+              Logout
+            </button>
           </div>
 
           <div className="todo__tasks">

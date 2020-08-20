@@ -33,7 +33,6 @@ const AddNewType = ({ colors, addList }) => {
       showError("Fill name");
       return;
     }
-    window.colors = colors;
     const color = colors.filter((c) => c.id === selectedColor)[0].id;
     addList({
       id: uuidv4(),
@@ -53,7 +52,7 @@ const AddNewType = ({ colors, addList }) => {
           <i>
             <PlusOutlined />
           </i>
-          <span>Add New Type</span>
+          <span className="clickOutside">Add New Type</span>
         </div>
       </div>
       {visiblePopup && (

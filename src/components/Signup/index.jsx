@@ -2,6 +2,8 @@ import { Form, Input, Button } from "antd";
 import React from "react";
 import "../Signin/Signin.scss";
 import { Link } from "react-router-dom";
+import { fetchSignupUser } from "../../redux/actions/users.js";
+import { useDispatch } from "react-redux";
 
 const layout = {
   labelCol: {
@@ -19,11 +21,18 @@ const tailLayout = {
 };
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    dispatch(fetchSignupUser(values.username, values.email, values.password));
   };
 
   const onFinishFailed = (errorInfo) => {
+    // fetchSignupUser(
+    //   errorInfo.values.username,
+    //   errorInfo.values.email,
+    //   errorInfo.values.password
+    // );
     console.log("Failed:", errorInfo);
   };
 

@@ -4,6 +4,7 @@ import moment from "moment";
 import { removeTask, editTask } from "../../redux/actions/todos";
 import { connect } from "react-redux";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
+import "../TasksBoard/TasksBoard.scss";
 
 const TasksBoard = ({
   task,
@@ -57,7 +58,7 @@ const TasksBoard = ({
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
       >
-        <div>
+        <div className="task__items-edit">
           <p>Task text:</p>
           <Input
             className="tasks__add-items__add-input"
@@ -66,7 +67,7 @@ const TasksBoard = ({
             onChange={(event) => setEditText(event.target.value)}
           />
         </div>
-        <div>
+        <div className="task__items-edit">
           <p>Task date:</p>
           <Space className="tasks__add-items__picker">
             <DatePicker

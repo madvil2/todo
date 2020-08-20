@@ -7,7 +7,12 @@ function useOutsideClick(ref, callback) {
      */
 
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        event.target.className !== "sidebar__add-button" &&
+        event.target.className !== "clickOutside"
+      ) {
         callback();
       }
     }
