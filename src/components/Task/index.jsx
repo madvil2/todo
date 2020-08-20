@@ -18,16 +18,19 @@ const TasksBoard = ({
   const [visible, setVisible] = React.useState(false);
 
   const handleOk = () => {
-    const newList = todos.tasks.map((item) => {
-      if (item.taskId === task.taskId) {
-        if (editDate) {
-          item.date = editDate;
+    let newList;
+    if (todos.tasks) {
+      newList = todos.tasks.map((item) => {
+        if (item.taskId === task.taskId) {
+          if (editDate) {
+            item.date = editDate;
+          }
+          item.date = "";
+          item.text = editText;
         }
-        item.date = "";
-        item.text = editText;
-      }
-      return item;
-    });
+        return item;
+      });
+    }
     dispatchEditTask(newList);
     setVisible(false);
   };

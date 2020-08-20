@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { removeList } from "../../redux/actions/todos";
 import Badge from "../Badge";
 import { useHistory } from "react-router-dom";
+import ic from "../../assets/icon-close.png";
 
 import "./Sidebar.scss";
 
@@ -50,7 +51,7 @@ const Sidebar = ({
           }}
         >
           <div>
-            <i>
+            <div className="colors">
               {item.icon ? (
                 item.icon
               ) : (
@@ -60,7 +61,7 @@ const Sidebar = ({
                   }
                 />
               )}
-            </i>
+            </div>
             <span>{item.name}</span>
           </div>
           {isRemovable && (
@@ -71,7 +72,7 @@ const Sidebar = ({
             >
               <img
                 alt="remove button"
-                src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
+                src={ic}
                 data-id={item.id}
                 width="14"
                 height="14"

@@ -1,7 +1,7 @@
 import { Form, Input, Button, Checkbox } from "antd";
 import React from "react";
 import "./Signin.scss";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchSigninUser, requestAction } from "../../redux/actions/users.js";
 import { connect, useDispatch } from "react-redux";
 
@@ -28,7 +28,6 @@ const Signin = (isLoading) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    // fetchSigninUser(errorInfo.values.username, errorInfo.values.password);
     console.log("Failed:", errorInfo);
   };
 

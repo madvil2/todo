@@ -6,11 +6,8 @@ import {
   REMOVE_TASK,
   EDIT_TASK,
 } from "../../constants";
-import { load, clear } from "redux-localstorage-simple";
+import { load } from "redux-localstorage-simple";
 
-// clear({
-//   namespace: "todo",
-// });
 let Todos = load({ namespace: "todo" }).todos;
 if (
   Todos === undefined ||

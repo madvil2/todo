@@ -49,9 +49,9 @@ const AddNewType = ({ colors, addList }) => {
         onClick={() => setVisiblePopup(true)}
       >
         <div>
-          <i>
+          <div className="close">
             <PlusOutlined />
-          </i>
+          </div>
           <span className="clickOutside">Add New Type</span>
         </div>
       </div>
