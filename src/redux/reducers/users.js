@@ -4,6 +4,7 @@ import {
   REQUEST_SIGNIN_FAILURE,
   REQUEST_SIGNUP_SUCCESS,
   REQUEST_SIGNUP_FAILURE,
+  REQUEST_LOGOUT,
 } from "../actions/users.js";
 
 const initState = {
@@ -14,13 +15,13 @@ const initState = {
   token: false,
 };
 
-const users = (state = initState, action) => {
+export const users = (state = initState, action) => {
   switch (action.type) {
     case REQUEST_ACTION:
       return {
         status: "",
         success: false,
-        loading: false,
+        loading: action.payload,
         error: false,
         token: false,
       };
@@ -54,6 +55,14 @@ const users = (state = initState, action) => {
         success: false,
         loading: false,
         error: true,
+        token: false,
+      };
+    case REQUEST_LOGOUT:
+      return {
+        status: "",
+        success: false,
+        loading: false,
+        error: false,
         token: false,
       };
     default:

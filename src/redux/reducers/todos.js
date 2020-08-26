@@ -2,36 +2,39 @@ import {
   ADD_LIST,
   REMOVE_LIST,
   ADD_TASK,
-  EDIT_LIST,
   REMOVE_TASK,
+  EDIT_LIST,
   EDIT_TASK,
+  CREATE_TASK_LIST,
+  CREATE_LIST_GROUP,
 } from "../../constants";
-import { load } from "redux-localstorage-simple";
 
-let Todos = load({ namespace: "todo" }).todos;
-if (
-  Todos === undefined ||
-  !Object.keys(Todos).length ||
-  !Todos.lists.length >= 8 ||
-  !Todos.tasks.length >= 4
-) {
-  Todos = {
-    tasks: [],
-    lists: [],
-    colors: [
-      { id: "1", hex: "#C9D1D3", name: "grey" },
-      { id: "2", hex: "#42B883", name: "green" },
-      { id: "3", hex: "#64C4ED", name: "blue" },
-      { id: "4", hex: "#FFBBCC", name: "pink" },
-      { id: "5", hex: "#B6E6BD", name: "lime" },
-      { id: "6", hex: "#C355F5", name: "purple" },
-      { id: "7", hex: "#110133", name: "black" },
-      { id: "8", hex: "#FF6464", name: "red" },
-    ],
-  };
-}
-export const todos = function reducer(state = Todos, action) {
+const initState = {
+  tasks: [],
+  lists: [],
+  colors: [
+    { id: "1", hex: "#C9D1D3", name: "grey" },
+    { id: "2", hex: "#42B883", name: "green" },
+    { id: "3", hex: "#64C4ED", name: "blue" },
+    { id: "4", hex: "#FFBBCC", name: "pink" },
+    { id: "5", hex: "#B6E6BD", name: "lime" },
+    { id: "6", hex: "#C355F5", name: "purple" },
+    { id: "7", hex: "#110133", name: "black" },
+    { id: "8", hex: "#FF6464", name: "red" },
+  ],
+};
+export const todos = function reducer(state = initState, action) {
   switch (action.type) {
+    case CREATE_TASK_LIST:
+      return {
+        ...state,
+        tasks: [...action.payload],
+      };
+    case CREATE_LIST_GROUP:
+      return {
+        ...state,
+        lists: [...action.payload],
+      };
     case ADD_TASK:
       return {
         ...state,
@@ -46,24 +49,34 @@ export const todos = function reducer(state = Todos, action) {
       return {
         ...state,
         lists: state.lists.filter((val) => val.id !== action.payload.id),
-        tasks: state.tasks.filter((val) => val.listId !== action.payload.id),
+        tasks: state.tasks.filter((val) => val.id !== action.payload.id),
       };
     case EDIT_LIST:
       return {
         ...state,
-        lists: action.payload,
+        lists: state.lists.map((list) => {
+          if (list.id === action.payload.id) {
+            list.name = action.payload.name;
+          }
+          return list;
+        }),
       };
     case REMOVE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter(
-          (val) => val.taskId !== action.payload.taskId
-        ),
+        tasks: state.tasks.filter((val) => val.id !== action.payload.id),
       };
     case EDIT_TASK:
       return {
         ...state,
-        tasks: action.payload,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            task.title = action.payload.title;
+            task.date = action.payload.date;
+            task.completed = action.payload.completed;
+          }
+          return task;
+        }),
       };
     default:
       return {

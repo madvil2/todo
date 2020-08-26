@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import classNames from "classname";
-import { connect } from "react-redux";
-import { removeList } from "../../redux/actions/todos";
+import classNames from "classnames";
+import { connect, useDispatch } from "react-redux";
 import Badge from "../Badge";
 import { useHistory } from "react-router-dom";
 import ic from "../../assets/icon-close.png";
+import { fetchRemoveList } from "../../redux/actions/lists.js";
 
 import "./Sidebar.scss";
 
@@ -13,12 +13,12 @@ const Sidebar = ({
   isRemovable,
   onClick,
   colors,
-  removeList,
   activeGroup,
   changeActiveGroup,
 }) => {
+  const dispatch = useDispatch();
   const handleOnClick = ({ target }) => {
-    removeList({ id: target.dataset["id"] });
+    dispatch(fetchRemoveList({ id: target.dataset["id"] }));
   };
 
   let history = useHistory();
@@ -33,7 +33,7 @@ const Sidebar = ({
         });
       }
     }
-  }, [history.location.pathname]);
+  }, [changeActiveGroup, history.location.pathname, items]);
   return (
     <ul onClick={onClick} className="sidebar">
       {items.map((item, index) => (
@@ -89,5 +89,5 @@ export default connect(
   (state) => ({
     colors: state.todos.colors,
   }),
-  { removeList }
+  {}
 )(Sidebar);

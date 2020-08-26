@@ -28,11 +28,6 @@ const Signup = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    // fetchSignupUser(
-    //   errorInfo.values.username,
-    //   errorInfo.values.email,
-    //   errorInfo.values.password
-    // );
     console.log("Failed:", errorInfo);
   };
 

@@ -1,10 +1,11 @@
 import React from "react";
 import { DatePicker, Input, Modal, Popconfirm, Space } from "antd";
 import moment from "moment";
-import { removeTask, editTask } from "../../redux/actions/todos";
-import { connect } from "react-redux";
+import { removeTask, editTask } from "../../redux/actions/tasks";
+import { connect, useDispatch } from "react-redux";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import "../TasksBoard/TasksBoard.scss";
+import { fetchChangeTask, fetchDeleteTask } from "../../redux/actions/tasks.js";
 
 const TasksBoard = ({
   task,
@@ -13,44 +14,22 @@ const TasksBoard = ({
   dispatchEditTask,
   todos,
 }) => {
-  const [editText, setEditText] = React.useState(task.text);
+  const [editText, setEditText] = React.useState(task.title);
   const [editDate, setEditDate] = React.useState();
   const [visible, setVisible] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handleOk = () => {
-    let newList;
-    if (todos.tasks) {
-      newList = todos.tasks.map((item) => {
-        if (item.taskId === task.taskId) {
-          if (editDate) {
-            item.date = editDate;
-          }
-          item.date = "";
-          item.text = editText;
-        }
-        return item;
-      });
-    }
-    dispatchEditTask(newList);
+    dispatch(fetchChangeTask(task.id, editText, editDate, task.completed));
     setVisible(false);
   };
 
   const changeStatus = () => {
-    const newList = todos.tasks.map((item) => {
-      if (item.taskId === task.taskId) {
-        item.status = !item.status;
-      }
-      return item;
-    });
-    dispatchEditTask(newList);
+    dispatch(fetchChangeTask(task.id, task.title, task.date, !task.completed));
   };
 
   const handleCancel = () => {
     setVisible(false);
-  };
-
-  const onRemoveTask = (taskId) => {
-    dispatchRemoveTask({ taskId });
   };
 
   return (
@@ -90,16 +69,16 @@ const TasksBoard = ({
         <div className="checkbox">
           <input id={`task-${index}`} type="checkbox" />
           <label
-            className={`${task.status && "active"}`}
+            className={`${task.completed && "active"}`}
             htmlFor={`task-${index}`}
             onClick={() => {
-              changeStatus(task.taskId);
+              changeStatus(task.id);
             }}
           >
             <CheckOutlined className="mark" />
           </label>
         </div>
-        <input readOnly value={task.text} />
+        <input readOnly value={task.title} />
         <div className={`tasks__items-row-actions`}>
           <div onClick={() => setVisible(true)}>
             <EditOutlined />
@@ -107,7 +86,7 @@ const TasksBoard = ({
           <div className="tasks__items-row-confirm">
             <Popconfirm
               title="Are you sure want to delete this task?"
-              onConfirm={() => onRemoveTask(task.taskId)}
+              onConfirm={() => dispatch(fetchDeleteTask(task.id))}
               placement="topRight"
               okText="Yes"
               cancelText="No"

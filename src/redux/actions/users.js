@@ -1,10 +1,13 @@
 import axios from "axios";
+import history from "../../utils/history.js";
+import showError from "../../utils/showError";
 
 export const REQUEST_ACTION = "REQUEST_ACTION";
 export const REQUEST_SIGNUP_SUCCESS = "REQUEST_SIGNUP_SUCCESS";
 export const REQUEST_SIGNUP_FAILURE = "REQUEST_SIGNUP_FAILURE";
 export const REQUEST_SIGNIN_SUCCESS = "REQUEST_SIGNIN_SUCCESS";
 export const REQUEST_SIGNIN_FAILURE = "REQUEST_SIGNIN_FAILURE";
+export const REQUEST_LOGOUT = "REQUEST_LOGOUT";
 
 export const requestSignupSuccess = (data) => {
   return {
@@ -27,6 +30,12 @@ export const requestSigninSuccess = (data) => {
   };
 };
 
+export const requestLogOut = () => {
+  return {
+    type: REQUEST_LOGOUT,
+  };
+};
+
 export const requestSigninFailure = (err) => {
   return {
     type: REQUEST_SIGNIN_FAILURE,
@@ -41,31 +50,40 @@ export const requestAction = (isLoading) => {
   };
 };
 
-export const fetchSignupUser = (username, mail, password) => (dispatch) => {
-  dispatch(requestAction(true));
-  axios
-    .post("/signup", {
-      username: username,
-      email: mail,
-      password: password,
-    })
-    .then(({ data }) => {
-      dispatch(requestSignupSuccess(data));
-    })
-    .catch((err) => {
-      dispatch(requestSignupFailure(err));
-    });
+export const fetchSignupUser = (username, email, password) => async (
+  dispatch
+) => {
+  await dispatch(requestAction(true));
+  try {
+    const { data } = await axios.post("/signup", { username, email, password });
+    await dispatch(requestSignupSuccess(data));
+    history.push("/login");
+  } catch (err) {
+    dispatch(requestSignupFailure(err));
+    console.log(err.response);
+    if (err.response.status === 400) {
+      err.response.data.errors.map((err) => showError(err.msg));
+    }
+    if (err.response.status === 500) {
+      showError(err.response.data.err.message);
+    }
+  }
 };
 
-export const fetchSigninUser = (username, password) => (dispatch) => {
-  dispatch(requestAction(true));
-  axios
-    .post("/login", { username: username, password: password })
-    .then(({ data }) => {
-      dispatch(requestSigninSuccess(data));
-      localStorage.setItem("token", data.token);
-    })
-    .catch((err) => {
-      dispatch(requestSigninFailure(err));
+export const fetchSigninUser = (username, password) => async (dispatch) => {
+  await dispatch(requestAction(true));
+  try {
+    const { data } = await axios.post("/login", {
+      username,
+      password,
     });
+    await dispatch(requestSigninSuccess(data));
+    localStorage.setItem("token", data.token);
+    history.push("/todo");
+  } catch (err) {
+    dispatch(requestSigninFailure(err));
+    if (err.response.status === 401) {
+      showError("ты в бане уебок");
+    }
+  }
 };

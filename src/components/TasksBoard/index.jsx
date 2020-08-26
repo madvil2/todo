@@ -1,34 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TasksBoard.scss";
-import { Input, DatePicker, Space, Popconfirm, message, Modal } from "antd";
-import { addTask, editList, removeTask } from "../../redux/actions/todos";
-import { EditOutlined, CheckOutlined } from "@ant-design/icons";
-import { connect } from "react-redux";
+import { Input, DatePicker, Space } from "antd";
+import { editList, fetchGetListGroup } from "../../redux/actions/lists.js";
+import { fetchAddTask, fetchGetTaskList } from "../../redux/actions/tasks.js";
+import { fetchChangeList } from "../../redux/actions/lists.js";
+import { EditOutlined } from "@ant-design/icons";
+import { connect, useDispatch } from "react-redux";
 import classNames from "classnames";
 import moment from "moment";
 import showError from "../../utils/showError";
-import { v4 as uuidv4 } from "uuid";
 import { Task } from "../";
 
-const Tasks = ({
-  todos,
-  activeGroup,
-  lists,
-  dispatchAddTask,
-  colors,
-  dispatchSetList,
-}) => {
+const Tasks = ({ todos, activeGroup, lists, dispatchAddTask, colors }) => {
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(fetchGetTaskList());
+      dispatch(fetchGetListGroup());
+    }
+  }, [dispatch]);
 
   const onEditTitle = (id, title) => {
-    const newList = lists.map((item) => {
-      if (item.id === id) {
-        item.name = title;
-      }
-      return item;
-    });
-    dispatchSetList(newList);
+    dispatch(fetchChangeList(id, title));
   };
 
   const editTitle = () => {
@@ -50,11 +46,11 @@ const Tasks = ({
       return;
     }
     dispatchAddTask({
-      taskId: uuidv4(),
-      listId: activeGroup.id,
-      text: inputValue,
-      status: false,
+      title: inputValue,
+      type: activeGroup.id,
+      description: "",
       date: dateValue,
+      completed: false,
     });
     reset();
   };
@@ -114,7 +110,7 @@ const Tasks = ({
       <ul className="tasks__list">
         {!!todos.tasks.length &&
           todos.tasks.map((item, index) => {
-            if (activeGroup.id === item.listId || activeGroup.id === 1) {
+            if (activeGroup.id === item.type || activeGroup.id === 1) {
               return (
                 <Task
                   index={index}
@@ -130,10 +126,10 @@ const Tasks = ({
   );
 };
 
-// const mapStateToProps = () => ({}); // погуглить
+// const mapStateToProps = () => ({});
 const mapDispatchToProps = {
-  dispatchAddTask: addTask,
+  dispatchAddTask: fetchAddTask,
   dispatchSetList: editList,
 };
 
-export default connect((state) => ({}), mapDispatchToProps)(Tasks);
+export default connect(() => ({}), mapDispatchToProps)(Tasks);

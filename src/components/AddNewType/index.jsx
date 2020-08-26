@@ -2,18 +2,16 @@ import React, { useState, useRef } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import "antd/dist/antd.css";
-import { v4 as uuidv4 } from "uuid";
-
+import { fetchAddList } from "../../redux/actions/lists.js";
 import { Badge } from "../";
 
-import { addList } from "../../redux/actions/todos";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
 import showError from "../../utils/showError";
 
 import "./AddNewType.scss";
 
-const AddNewType = ({ colors, addList }) => {
+const AddNewType = ({ colors }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
   const [selectedColor, selectColor] = useState(colors[0].id);
   const [inputValue, setInputValue] = useState("");
@@ -26,6 +24,7 @@ const AddNewType = ({ colors, addList }) => {
 
   const ref = useRef(null);
   useOutsideClick(ref, onClose);
+  const dispatch = useDispatch();
 
   const AddNew = (e) => {
     e.preventDefault();
@@ -34,11 +33,7 @@ const AddNewType = ({ colors, addList }) => {
       return;
     }
     const color = colors.filter((c) => c.id === selectedColor)[0].id;
-    addList({
-      id: uuidv4(),
-      name: inputValue,
-      colorId: color,
-    });
+    dispatch(fetchAddList(inputValue, color));
     onClose();
   };
 
@@ -81,4 +76,4 @@ const AddNewType = ({ colors, addList }) => {
   );
 };
 
-export default connect((state) => ({}), { addList })(AddNewType);
+export default connect(() => ({}), {})(AddNewType);

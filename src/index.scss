@@ -26,6 +26,28 @@
     height: 100%;
     border-right: 1px solid #f1f1f1;
     padding: 60px 20px;
+    position: relative;
+
+    &__button {
+      position: absolute;
+      bottom:10px;
+      left:10px;
+      width: 93%;
+      height: 42px;
+      border-radius: 21px;
+      background-color: #1890ff;
+      border: 1px solid #1890ff;
+      color: #ffffff;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:active {
+        background-color: #0e2fa6;
+      }
+    }
   }
 
   &__tasks {
@@ -39,26 +61,10 @@
   padding: 8px 12px;
 }
 
-.ant-btn {
-  background: #10bf6a;
-  border-radius: 4px;
-  color: #ffffff;
-  border: 0;
-  padding: 10px 20px;
-  cursor: pointer;
-
-  &:hover {
-    background: darken(#10bf6a, 6%);
-  }
-  &:active {
-    background: darken(#10bf6a, 10%);
-  }
-}
-
 .loader {
   border: 6px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 6px solid #10bf6a;
+  border-top: 6px solid #1890ff;
   width: 40px;
   height: 40px;
   -webkit-animation: spin 2s linear infinite;
