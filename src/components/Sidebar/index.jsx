@@ -36,51 +36,53 @@ const Sidebar = ({
   }, [changeActiveGroup, history.location.pathname, items]);
   return (
     <ul onClick={onClick} className="sidebar">
-      {items.map((item, index) => (
-        <li
-          key={index}
-          className={classNames(item.className, {
-            active: activeGroup.id === item.id,
-          })}
-          onClick={() => {
-            changeActiveGroup({
-              id: item.id,
-              color: item.colorId,
-            });
-            history.push(`/todo/types/${item.id}`);
-          }}
-        >
-          <div>
-            <div className="colors">
-              {item.icon ? (
-                item.icon
-              ) : (
-                <Badge
-                  color={
-                    colors.filter((val) => val.id === item.colorId)[0].name
-                  }
-                />
-              )}
+      {Array.isArray(items) &&
+        !!items.length &&
+        items.map((item, index) => (
+          <li
+            key={index}
+            className={classNames(item.className, {
+              active: activeGroup.id === item.id,
+            })}
+            onClick={() => {
+              changeActiveGroup({
+                id: item.id,
+                color: item.colorId,
+              });
+              history.push(`/todo/types/${item.id}`);
+            }}
+          >
+            <div>
+              <div className="colors">
+                {item.icon ? (
+                  item.icon
+                ) : (
+                  <Badge
+                    color={
+                      colors.filter((val) => val.id === item.colorId)[0].name
+                    }
+                  />
+                )}
+              </div>
+              <span>{item.name}</span>
             </div>
-            <span>{item.name}</span>
-          </div>
-          {isRemovable && (
-            <div
-              className="sidebar__remove-icon"
-              data-id={item.id}
-              onClick={handleOnClick}
-            >
-              <img
-                alt="remove button"
-                src={ic}
+            {isRemovable && (
+              <div
+                className="sidebar__remove-icon"
                 data-id={item.id}
-                width="14"
-                height="14"
-              />
-            </div>
-          )}
-        </li>
-      ))}
+                onClick={handleOnClick}
+              >
+                <img
+                  alt="remove button"
+                  src={ic}
+                  data-id={item.id}
+                  width="14"
+                  height="14"
+                />
+              </div>
+            )}
+          </li>
+        ))}
     </ul>
   );
 };

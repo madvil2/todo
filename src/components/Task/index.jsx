@@ -7,13 +7,7 @@ import { EditOutlined, CheckOutlined } from "@ant-design/icons";
 import "../TasksBoard/TasksBoard.scss";
 import { fetchChangeTask, fetchDeleteTask } from "../../redux/actions/tasks.js";
 
-const TasksBoard = ({
-  task,
-  dispatchRemoveTask,
-  index,
-  dispatchEditTask,
-  todos,
-}) => {
+const TasksBoard = ({ task, index }) => {
   const [editText, setEditText] = React.useState(task.title);
   const [editDate, setEditDate] = React.useState();
   const [visible, setVisible] = React.useState(false);
@@ -110,4 +104,4 @@ const mapDispatchToProps = {
   dispatchEditTask: editTask,
 };
 
-export default connect((state) => ({}), mapDispatchToProps)(TasksBoard);
+export default connect(() => ({}), mapDispatchToProps)(TasksBoard);

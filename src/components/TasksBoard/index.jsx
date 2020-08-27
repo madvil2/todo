@@ -11,7 +11,14 @@ import moment from "moment";
 import showError from "../../utils/showError";
 import { Task } from "../";
 
-const Tasks = ({ todos, activeGroup, lists, dispatchAddTask, colors }) => {
+const TasksBoard = ({
+  todos,
+  activeGroup,
+  lists,
+  dispatchAddTask,
+  colors,
+  user,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
   const dispatch = useDispatch();
@@ -126,10 +133,13 @@ const Tasks = ({ todos, activeGroup, lists, dispatchAddTask, colors }) => {
   );
 };
 
-// const mapStateToProps = () => ({});
+const mapStateToProps = (initState) => {
+  return {};
+};
+
 const mapDispatchToProps = {
   dispatchAddTask: fetchAddTask,
   dispatchSetList: editList,
 };
 
-export default connect(() => ({}), mapDispatchToProps)(Tasks);
+export default connect(mapStateToProps, mapDispatchToProps)(TasksBoard);
