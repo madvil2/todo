@@ -10,6 +10,11 @@
   height:100%;
   padding-bottom: 100px;
 
+  .sort {
+    float: right;
+    width: 200px;
+  }
+
   &__items {
     &-row {
       display: flex;
@@ -148,6 +153,7 @@
       border-color: #42b883;
       .mark {
         opacity: 1;
+        color: white;
       }
     }
     &:hover {
@@ -156,6 +162,7 @@
         border-color: #f2f2f2;
         .mark {
           opacity: 1;
+          color: black;
           path {
             stroke: #b2b2b2;
           }
@@ -174,6 +181,42 @@
       transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
       .mark {
         opacity: 0;
+      }
+    }
+    &.warning {
+      label {
+        border-color: #ffc107;
+        .mark {
+          color: white;
+        }
+      }
+      label.active {
+        background: #42b883;
+        border-color: #42b883;
+      }
+      &:hover {
+        label {
+          background-color: #ffc107;
+          border-color: #ffc107;
+        }
+      }
+    }
+    &.failed {
+      label {
+        border-color: #dc3545;
+        .mark {
+          color: white;
+        }
+      }
+      label.active {
+        background: #42b883;
+        border-color: #42b883;
+      }
+      &:hover {
+        label {
+          background-color: #dc3545;
+          border-color: #dc3545;
+        }
       }
     }
   }

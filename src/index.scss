@@ -74,7 +74,16 @@
   right:0;
   top:0;
   bottom:0;
-  position: fixed;
+}
+
+.flex-loader {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+#root {
+  height: 100%;
 }
 
 @-webkit-keyframes spin {

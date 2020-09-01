@@ -60,7 +60,6 @@ export const fetchSignupUser = (username, email, password) => async (
     history.push("/login");
   } catch (err) {
     dispatch(requestSignupFailure(err));
-    console.log(err.response);
     if (err.response.status === 400) {
       err.response.data.errors.map((err) => showError(err.msg));
     }
@@ -83,7 +82,7 @@ export const fetchSigninUser = (username, password) => async (dispatch) => {
   } catch (err) {
     dispatch(requestSigninFailure(err));
     if (err.response.status === 401) {
-      showError("ты в бане уебок");
+      showError("Incorrect username or password");
     }
   }
 };

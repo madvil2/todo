@@ -27,14 +27,14 @@ const Signup = ({ user }) => {
     dispatch(fetchSignupUser(values.username, values.email, values.password));
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  const onFinishFailed = (errorInfo) => {};
 
   return (
     <div className="login-page">
       {user.loading ? (
-        <div className="loader" />
+        <div className="flex-loader">
+          <div className="loader" />
+        </div>
       ) : (
         <div className="form">
           <div className="register-form">

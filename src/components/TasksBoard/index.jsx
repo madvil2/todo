@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TasksBoard.scss";
-import { Input, DatePicker, Space } from "antd";
+import { Input, DatePicker, Space, Select } from "antd";
 import { editList, fetchGetListGroup } from "../../redux/actions/lists.js";
 import { fetchAddTask, fetchGetTaskList } from "../../redux/actions/tasks.js";
 import { fetchChangeList } from "../../redux/actions/lists.js";
@@ -17,11 +17,19 @@ const TasksBoard = ({
   lists,
   dispatchAddTask,
   colors,
-  user,
+  preloading,
+  sort,
+  setSort,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [dateValue, setDateValue] = useState("");
   const dispatch = useDispatch();
+
+  const { Option } = Select;
+
+  function handleChange(value) {
+    setSort({ value });
+  }
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -89,6 +97,14 @@ const TasksBoard = ({
         ) : (
           <EditOutlined onClick={editTitle} className="tasks__edit" />
         )}
+        <Select
+          defaultValue={"Sort by date:"}
+          onChange={handleChange}
+          className="sort"
+        >
+          <Option value="ASCENDING">Early first</Option>
+          <Option value="DESCENDING">Late first</Option>
+        </Select>
       </h2>
       <div className="tasks__add-items">
         <Input
@@ -114,27 +130,34 @@ const TasksBoard = ({
           Add new
         </button>
       </div>
-      <ul className="tasks__list">
-        {!!todos.tasks.length &&
-          todos.tasks.map((item, index) => {
-            if (activeGroup.id === item.type || activeGroup.id === 1) {
-              return (
-                <Task
-                  index={index}
-                  task={item}
-                  activeGroup={activeGroup}
-                  todos={todos}
-                />
-              );
-            } else return null;
-          })}
-      </ul>
+      {preloading.loadingTodos ? (
+        <div className="flex-loader">
+          <div className="loader" />
+        </div>
+      ) : (
+        <ul className="tasks__list">
+          {!!todos.tasks.length &&
+            todos.tasks.map((item, index) => {
+              if (activeGroup.id === item.type || activeGroup.id === 1) {
+                return (
+                  <Task
+                    index={index}
+                    task={item}
+                    key={item.id}
+                    activeGroup={activeGroup}
+                    todos={todos}
+                  />
+                );
+              } else return null;
+            })}
+        </ul>
+      )}
     </div>
   );
 };
 
-const mapStateToProps = (initState) => {
-  return {};
+const mapStateToProps = (state) => {
+  return { preloading: state.fetchTasks };
 };
 
 const mapDispatchToProps = {

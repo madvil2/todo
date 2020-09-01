@@ -10,7 +10,15 @@ import {
   FETCH_TASK_ITEM,
   FETCH_TASK_LIST_SUCCESS,
   FETCH_ADD_TASK_SUCCESS,
+  SORT_TASKS,
 } from "../../constants";
+
+export const sortTasks = (sort) => {
+  return {
+    type: SORT_TASKS,
+    payload: sort.value,
+  };
+};
 
 export const addTask = (res) => {
   return {
@@ -123,7 +131,7 @@ export const fetchAddTask = ({ title, type, description, date, completed }) => (
 };
 
 export const fetchChangeTask = (id, title, date, completed) => (dispatch) => {
-  dispatch(fetchTask(id));
+  dispatch(fetchTaskList(true));
   createAxios()
     .put(`/todolist/${id}`, {
       id,
@@ -133,7 +141,7 @@ export const fetchChangeTask = (id, title, date, completed) => (dispatch) => {
     })
     .then(() => {
       dispatch(editTask(id, title, date, completed));
-      dispatch(fetchTask(false));
+      dispatch(fetchTaskListSuccess());
     })
     .catch((err) => {
       if (err.response.status === 401) {
@@ -144,11 +152,12 @@ export const fetchChangeTask = (id, title, date, completed) => (dispatch) => {
 };
 
 export const fetchDeleteTask = (id) => (dispatch) => {
-  dispatch(fetchTask(id));
+  dispatch(fetchTaskList(true));
   createAxios()
     .delete(`/todolist/${id}`)
     .then(() => {
       dispatch(removeTask({ id }));
+      dispatch(fetchTaskListSuccess());
     })
     .catch((err) => {
       if (err.response.status === 401) {

@@ -7,7 +7,23 @@ import {
   EDIT_TASK,
   CREATE_TASK_LIST,
   CREATE_LIST_GROUP,
+  FETCH_TASK_LIST,
+  FETCH_TASK_LIST_SUCCESS,
+  FETCH_TASK_ITEM,
+  FETCH_ADD_TASK_SUCCESS,
+  FETCH_LIST_GROUP,
+  FETCH_LIST_GROUP_SUCCESS,
+  FETCH_LIST_GROUP_FAILED,
+  SORT_TASKS,
+  ASCENDING,
+  DESCENDING,
 } from "../../constants";
+import moment from "moment";
+
+const fetchState = {
+  loadingTodos: false,
+  loading: false,
+};
 
 const initState = {
   tasks: [],
@@ -78,9 +94,62 @@ export const todos = function reducer(state = initState, action) {
           return task;
         }),
       };
+    case SORT_TASKS:
+      switch (action.payload) {
+        case ASCENDING:
+          return {
+            ...state,
+            tasks: state.tasks.sort((a, b) => {
+              return (
+                (a.date === "") - (b.date === "") ||
+                +(moment(a.date).unix() > moment(b.date).unix()) ||
+                -(moment(a.date).unix() < moment(b.date).unix())
+              );
+            }),
+          };
+        case DESCENDING:
+          return {
+            ...state,
+            tasks: state.tasks.sort((a, b) => {
+              return (
+                (a.date === "") - (b.date === "") ||
+                +(moment(a.date).unix() < moment(b.date).unix()) ||
+                -(moment(a.date).unix() > moment(b.date).unix())
+              );
+            }),
+          };
+        default:
+          return state;
+      }
     default:
-      return {
-        ...state,
-      };
+      return state;
+  }
+};
+
+export const fetchTasksReducer = (state = fetchState, action) => {
+  switch (action.type) {
+    case FETCH_TASK_LIST:
+      return { ...state, loadingTodos: action.payload };
+    case FETCH_TASK_LIST_SUCCESS:
+      return { ...state, loadingTodos: false };
+    case FETCH_TASK_ITEM:
+      return { ...state, loadingTodo: action.payload };
+    case FETCH_ADD_TASK_SUCCESS:
+      return { ...state, loadingTodo: false };
+    default:
+      return state;
+  }
+};
+
+export const fetchListsReducer = (state = fetchState, action) => {
+  switch (action.type) {
+    case FETCH_LIST_GROUP:
+      return { ...state, loading: action.payload };
+    case FETCH_LIST_GROUP_SUCCESS:
+      return { ...state, loading: false };
+    case FETCH_LIST_GROUP_FAILED:
+      return { ...state, loading: false };
+    default:
+      return state;
   }
 };

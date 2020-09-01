@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { BarsOutlined } from "@ant-design/icons";
 import { requestLogOut } from "./redux/actions/users.js";
+import { sortTasks } from "./redux/actions/tasks.js";
 import "./index.scss";
 import { AddNewType, Sidebar, TasksBoard, Signin, Signup } from "./components";
 import { Route, useHistory, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-function App({ todos, lists, colors, user, dispatchRequestAction }) {
+function App({
+  todos,
+  lists,
+  colors,
+  user,
+  dispatchRequestAction,
+  dispatchSortTasks,
+}) {
   const [activeGroup, setActiveGroup] = useState({
     id: 1,
     color: null,
@@ -14,6 +22,11 @@ function App({ todos, lists, colors, user, dispatchRequestAction }) {
   let history = useHistory();
 
   const [isLogin, setLogin] = useState(user.success);
+  const [sort, setSort] = useState({ value: "" });
+
+  useEffect(() => {
+    dispatchSortTasks(sort);
+  }, [todos.tasks.length, sort]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -83,6 +96,8 @@ function App({ todos, lists, colors, user, dispatchRequestAction }) {
                       lists={lists}
                       activeGroup={activeGroup}
                       colors={colors}
+                      sort={sort}
+                      setSort={setSort}
                     />
                   )}
                 </Route>
@@ -115,6 +130,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   dispatchRequestAction: requestLogOut,
+  dispatchSortTasks: sortTasks,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
