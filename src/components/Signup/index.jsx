@@ -27,8 +27,6 @@ const Signup = ({ user }) => {
     dispatch(fetchSignupUser(values.username, values.email, values.password));
   };
 
-  const onFinishFailed = (errorInfo) => {};
-
   return (
     <div className="login-page">
       {user.loading ? (
@@ -45,7 +43,6 @@ const Signup = ({ user }) => {
                 remember: true,
               }}
               onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
             >
               <form className="login-form">
                 <Form.Item

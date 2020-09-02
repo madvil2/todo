@@ -26,7 +26,7 @@ function App({
 
   useEffect(() => {
     dispatchSortTasks(sort);
-  }, [todos.tasks.length, sort]);
+  }, [todos.tasks.length, sort, dispatchSortTasks]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -108,6 +108,8 @@ function App({
                       lists={lists}
                       activeGroup={activeGroup}
                       colors={colors}
+                      sort={sort}
+                      setSort={setSort}
                     />
                   )}
                 </Route>

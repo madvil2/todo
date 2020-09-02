@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
 import Badge from "../Badge";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ic from "../../assets/icon-close.png";
 import { editList, fetchRemoveList } from "../../redux/actions/lists.js";
 
@@ -24,6 +24,7 @@ const Sidebar = ({
   };
 
   let history = useHistory();
+
   useEffect(() => {
     const listId = history.location.pathname.split("/todo/types/")[1];
     if (items) {
@@ -108,10 +109,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
-
-// export default connect(
-//   (state) => ({
-//     colors: state.todos.colors,
-//   }),
-//   {}
-// )(Sidebar);
