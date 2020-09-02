@@ -101,7 +101,7 @@ function App({
                     />
                   )}
                 </Route>
-                <Route path="/todo/types/">
+                <Route path="/todo/types">
                   {lists && (
                     <TasksBoard
                       todos={todos}

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
 import Badge from "../Badge";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ic from "../../assets/icon-close.png";
 import { editList, fetchRemoveList } from "../../redux/actions/lists.js";
 
@@ -27,6 +27,7 @@ const Sidebar = ({
 
   useEffect(() => {
     const listId = history.location.pathname.split("/todo/types/")[1];
+
     if (items) {
       const list = items.find((list) => list.id === listId);
       if (list) {

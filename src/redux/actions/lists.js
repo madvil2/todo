@@ -9,6 +9,9 @@ import {
   FETCH_LIST_GROUP_SUCCESS,
   EDIT_LIST,
 } from "../../constants";
+import { useHistory } from "react-router-dom";
+
+let history = useHistory();
 
 export function addList(list) {
   return {
@@ -70,6 +73,7 @@ export const fetchGetListGroup = () => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
+        history.push("/login");
       }
     });
 };
@@ -89,6 +93,7 @@ export const fetchAddList = (name, colorId) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
+        history.push("/login");
       }
     });
 };
@@ -105,6 +110,7 @@ export const fetchRemoveList = ({ id }) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
+        history.push("/login");
       }
     });
 };
@@ -123,6 +129,7 @@ export const fetchChangeList = (id, title) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
+        history.push("/login");
       }
     });
 };

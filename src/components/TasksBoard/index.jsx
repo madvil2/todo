@@ -18,7 +18,6 @@ const TasksBoard = ({
   dispatchAddTask,
   colors,
   preloading,
-  sort,
   setSort,
 }) => {
   const [inputValue, setInputValue] = useState("");
