@@ -5,7 +5,7 @@ import {
   REQUEST_SIGNUP_SUCCESS,
   REQUEST_SIGNUP_FAILURE,
   REQUEST_LOGOUT,
-} from "../actions/users.js";
+} from "../../constants.js";
 
 const initState = {
   status: "",

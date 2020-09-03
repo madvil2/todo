@@ -1,5 +1,6 @@
 import { requestSigninSuccess } from "./users.js";
 import createAxios from "../../utils/request.js";
+
 import {
   ADD_TASK,
   CREATE_TASK_LIST,
@@ -12,9 +13,6 @@ import {
   FETCH_ADD_TASK_SUCCESS,
   SORT_TASKS,
 } from "../../constants";
-import { useHistory } from "react-router-dom";
-
-let history = useHistory();
 
 export const sortTasks = (sort) => {
   return {
@@ -99,7 +97,6 @@ export const fetchGetTaskList = () => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -130,7 +127,6 @@ export const fetchAddTask = ({ title, type, description, date, completed }) => (
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -152,7 +148,6 @@ export const fetchChangeTask = (id, title, date, completed) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -169,7 +164,6 @@ export const fetchDeleteTask = (id) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };

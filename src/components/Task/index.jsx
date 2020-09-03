@@ -17,17 +17,6 @@ const TasksBoard = ({ task, index }) => {
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
 
-  const deadline = () => {
-    let time = moment(task.date).unix();
-    let now = moment().unix();
-
-    if (time - now < 86400 && time - now > 0) {
-      setStatus("warning");
-    } else if (time - now < 0) {
-      setStatus("failed");
-    }
-  };
-
   const handleOk = () => {
     dispatch(fetchChangeTask(task.id, editText, editDate, task.completed));
     setVisible(false);
@@ -42,7 +31,14 @@ const TasksBoard = ({ task, index }) => {
   };
 
   useEffect(() => {
-    deadline();
+    let time = moment(task.date).unix();
+    let now = moment().unix();
+
+    if (time - now < 86400 && time - now > 0) {
+      setStatus("warning");
+    } else if (time - now < 0) {
+      setStatus("failed");
+    }
   }, [task.date]);
 
   return (

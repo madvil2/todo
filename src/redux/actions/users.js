@@ -1,13 +1,14 @@
 import axios from "axios";
 import history from "../../utils/history.js";
 import showError from "../../utils/showError";
-
-export const REQUEST_ACTION = "REQUEST_ACTION";
-export const REQUEST_SIGNUP_SUCCESS = "REQUEST_SIGNUP_SUCCESS";
-export const REQUEST_SIGNUP_FAILURE = "REQUEST_SIGNUP_FAILURE";
-export const REQUEST_SIGNIN_SUCCESS = "REQUEST_SIGNIN_SUCCESS";
-export const REQUEST_SIGNIN_FAILURE = "REQUEST_SIGNIN_FAILURE";
-export const REQUEST_LOGOUT = "REQUEST_LOGOUT";
+import {
+  REQUEST_SIGNUP_FAILURE,
+  REQUEST_SIGNUP_SUCCESS,
+  REQUEST_SIGNIN_SUCCESS,
+  REQUEST_LOGOUT,
+  REQUEST_ACTION,
+  REQUEST_SIGNIN_FAILURE,
+} from "../../constants.js";
 
 export const requestSignupSuccess = (data) => {
   return {

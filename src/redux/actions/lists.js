@@ -4,14 +4,10 @@ import {
   ADD_LIST,
   REMOVE_LIST,
   CREATE_LIST_GROUP,
-  CLEAR_LIST_GROUP,
   FETCH_LIST_GROUP,
   FETCH_LIST_GROUP_SUCCESS,
   EDIT_LIST,
 } from "../../constants";
-import { useHistory } from "react-router-dom";
-
-let history = useHistory();
 
 export function addList(list) {
   return {
@@ -42,12 +38,6 @@ export const createListGroup = (data) => {
   };
 };
 
-export const clearListGroup = () => {
-  return {
-    type: CLEAR_LIST_GROUP,
-  };
-};
-
 export const fetchListGroup = (isLoading) => {
   return {
     type: FETCH_LIST_GROUP,
@@ -73,7 +63,6 @@ export const fetchGetListGroup = () => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(requestSigninSuccess(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -93,7 +82,6 @@ export const fetchAddList = (name, colorId) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -110,7 +98,6 @@ export const fetchRemoveList = ({ id }) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
@@ -129,7 +116,6 @@ export const fetchChangeList = (id, title) => (dispatch) => {
       if (err.response.status === 401) {
         dispatch(fetchListGroup(false));
         localStorage.removeItem("token");
-        history.push("/login");
       }
     });
 };
