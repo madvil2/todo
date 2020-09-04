@@ -1,9 +1,11 @@
 import { Form, Input, Button, Checkbox } from "antd";
 import React from "react";
-import "./Signin.scss";
+import styles from "./Signin.module.scss";
+import loader from "../../index.module.scss";
 import { Link } from "react-router-dom";
 import { fetchSigninUser, requestAction } from "../../redux/actions/users.js";
 import { connect, useDispatch } from "react-redux";
+import path from "../../utils/paths.js";
 
 const layout = {
   labelCol: {
@@ -28,14 +30,14 @@ const Signin = ({ user }) => {
   };
 
   return (
-    <div className="login-page">
+    <div className={styles.login_page}>
       {user.loading ? (
-        <div className="flex-loader">
-          <div className="loader" />
+        <div className={loader.flex_loader}>
+          <div className={loader.loader} />
         </div>
       ) : (
-        <div className="form">
-          <div className="login-form">
+        <div className={styles.form}>
+          <div className={styles.login_form}>
             <Form
               {...layout}
               name="basic"
@@ -44,7 +46,7 @@ const Signin = ({ user }) => {
               }}
               onFinish={onFinish}
             >
-              <form className="login-form">
+              <form className={styles.login_form}>
                 <Form.Item
                   label="Username"
                   name="username"
@@ -77,13 +79,17 @@ const Signin = ({ user }) => {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Button type="primary" className="button" htmlType="submit">
+                  <Button
+                    type="primary"
+                    className={styles.button}
+                    htmlType="submit"
+                  >
                     Login
                   </Button>
                 </Form.Item>
-                <p className="message">
+                <p className={styles.message}>
                   Not registered?
-                  <Link to="/register"> Create an account</Link>
+                  <Link to={path.register}> Create an account</Link>
                 </p>
               </form>
             </Form>

@@ -2,7 +2,7 @@
   opacity: 1;
 }
 
-.task__items-edit {
+.task__items_edit {
   margin-top: 2%;
 }
 
@@ -16,11 +16,11 @@
   }
 
   &__items {
-    &-row {
+    &_row {
       display: flex;
       align-items: center;
       margin-bottom: 15px;
-      &-actions {
+      &_actions {
         display: flex;
         transition: 0.15s ease-in-out;
         div {
@@ -44,12 +44,12 @@
     }
   }
 
-  &__add-items {
+  &__add_items {
     display: flex;
     &__picker {
       margin-right: 5px;
     }
-    &__add-input {
+    &__add_input {
       margin-right: 5px;
       margin-top: 1px;
       height: 40px;
@@ -95,28 +95,28 @@
       }
     }
 
-    &--grey {
+    &__grey {
       color: #c9d1d3;
     }
-    &--green {
+    &__green {
       color: #42b883;
     }
-    &--blue {
+    &__blue {
       color: #64c4ed;
     }
-    &--pink {
+    &__pink {
       color: #ffbbcc;
     }
-    &--lime {
+    &__lime {
       color: #b6e6bd;
     }
-    &--purple {
+    &__purple {
       color: #c355f5;
     }
-    &--black {
+    &__black {
       color: #0d001d;
     }
-    &--red {
+    &__red {
       color: #ff6464;
     }
 
@@ -128,9 +128,8 @@
   }
   &__items {
     margin-top: 30px;
-    &-row {
+    &_row {
       display: flex;
-      //align-items: center;
       margin-bottom: 15px;
       input {
         margin-left: 15px;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./TasksBoard.scss";
+import styles from "./TasksBoard.module.scss";
+import loader from "../../index.module.scss";
 import { Input, DatePicker, Space, Select } from "antd";
 import { editList, fetchGetListGroup } from "../../redux/actions/lists.js";
 import { fetchAddTask, fetchGetTaskList } from "../../redux/actions/tasks.js";
@@ -84,35 +85,35 @@ const TasksBoard = ({
   }
 
   return (
-    <div className="tasks">
+    <div className={styles.tasks}>
       <h2
-        className={classNames("tasks__title", {
-          [`tasks__title--${color}`]: color,
+        className={classNames(styles.tasks__title, {
+          [styles[`tasks__title__${color}`]]: color,
         })}
       >
         {activeGroup.id === 1 ? "All types" : title}
         {activeGroup.id === 1 ? (
           ""
         ) : (
-          <EditOutlined onClick={editTitle} className="tasks__edit" />
+          <EditOutlined onClick={editTitle} className={styles.tasks__edit} />
         )}
         <Select
           defaultValue={"Sort by date:"}
           onChange={handleChange}
-          className="sort"
+          className={styles.sort}
         >
           <Option value="ASCENDING">Early first</Option>
           <Option value="DESCENDING">Late first</Option>
         </Select>
       </h2>
-      <div className="tasks__add-items">
+      <div className={styles.tasks__add_items}>
         <Input
-          className="tasks__add-items__add-input"
+          className={styles.tasks__add_items__add_input}
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder="Enter task title"
         />
-        <Space className="tasks__add-items__picker">
+        <Space className={styles.tasks__add_items__picker}>
           <DatePicker
             format="YYYY-MM-DD HH:mm:ss"
             showTime={{ defaultValue: moment("00:00:00", "HH:mm:ss") }}
@@ -122,7 +123,7 @@ const TasksBoard = ({
           />
         </Space>
         <button
-          className="tasks__add-items__button"
+          className={styles.tasks__add_items__button}
           onClick={AddNew}
           type="primary"
         >
@@ -130,11 +131,11 @@ const TasksBoard = ({
         </button>
       </div>
       {preloading.loadingTodos ? (
-        <div className="flex-loader">
-          <div className="loader" />
+        <div className={loader.flex_loader}>
+          <div className={loader.loader} />
         </div>
       ) : (
-        <ul className="tasks__list">
+        <ul className={styles.tasks__list}>
           {!!todos.tasks.length &&
             todos.tasks.map((item, index) => {
               if (activeGroup.id === item.type || activeGroup.id === 1) {
@@ -155,9 +156,9 @@ const TasksBoard = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return { preloading: state.fetchTasks };
-};
+const mapStateToProps = (state) => ({
+  preloading: state.fetchTasks,
+});
 
 const mapDispatchToProps = {
   dispatchAddTask: fetchAddTask,

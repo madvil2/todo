@@ -4,29 +4,31 @@
   height: 10px;
   border-radius: 30px;
   margin-right: 10px;
-
-  &--grey {
+  &_active {
+    border: 2px solid #525252;
+  }
+  &__grey {
     background-color: #c9d1d3;
   }
-  &--green {
+  &__green {
     background-color: #42b883;
   }
-  &--blue {
+  &__blue {
     background-color: #64c4ed;
   }
-  &--pink {
+  &__pink {
     background-color: #ffbbcc;
   }
-  &--lime {
+  &__lime {
     background-color: #b6e6bd;
   }
-  &--purple {
+  &__purple {
     background-color: #c355f5;
   }
-  &--black {
+  &__black {
     background-color: #0d001d;
   }
-  &--red {
+  &__red {
     background-color: #ff6464;
   }
 }

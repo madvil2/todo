@@ -1,7 +1,7 @@
 .sidebar {
   margin-bottom: 30px;
   $self: &;
-  &__add-button {
+  &__add_button {
     position: relative;
     display: flex;
     align-items: center;
@@ -30,7 +30,7 @@
   }
 }
 
-.add-new {
+.add_new {
   &__button {
     width: 100%;
     margin-top: 12px;
@@ -59,24 +59,26 @@
     top: 0;
     left: 10px;
 
-    &-close-btn {
+    &_close_btn {
       position: absolute;
       right: -5px;
       top: -5px;
       cursor: pointer;
     }
 
-    &-colors {
+    &_colors {
       display: flex;
       justify-content: space-between;
       margin-top: 12px;
       .badge {
+        display: inline-block;
         width: 16px;
         height: 16px;
+        border-radius: 30px;
         cursor: pointer;
         border: 2px solid transparent;
 
-        &.active {
+        &_active {
           border: 2px solid #525252;
         }
       }

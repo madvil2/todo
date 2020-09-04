@@ -6,8 +6,7 @@ function useOutsideClick(ref, callback) {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
-        event.target.className !== "sidebar__add-button" &&
-        event.target.className !== "clickOutside"
+        event.target.getAttribute("data-click") !== "clickOutside"
       ) {
         callback();
       }

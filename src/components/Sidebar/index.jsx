@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import classNames from "classnames";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import Badge from "../Badge";
 import { useHistory } from "react-router-dom";
-import ic from "../../assets/icon-close.png";
-import { editList, fetchRemoveList } from "../../redux/actions/lists.js";
-
-import "./Sidebar.scss";
-import { fetchAddTask } from "../../redux/actions/tasks";
+import icon from "../../assets/icon-close.png";
+import { fetchRemoveList } from "../../redux/actions/lists.js";
+import path from "../../utils/paths.js";
+import styles from "./Sidebar.module.scss";
+import loader from "../../index.module.scss";
+import { reverse } from "named-urls/src";
 
 const Sidebar = ({
   items,
@@ -17,16 +18,16 @@ const Sidebar = ({
   activeGroup,
   changeActiveGroup,
   preloading,
+  dispatchFetchRemoveList,
 }) => {
-  const dispatch = useDispatch();
   const handleOnClick = ({ target }) => {
-    dispatch(fetchRemoveList({ id: target.dataset["id"] }));
+    dispatchFetchRemoveList({ id: target.dataset["id"] });
   };
 
   let history = useHistory();
 
   useEffect(() => {
-    const listId = history.location.pathname.split("/todo/types/")[1];
+    const listId = history.location.pathname.split(path.todoTypes)[1];
 
     if (items) {
       const list = items.find((list) => list.id === listId);
@@ -41,11 +42,11 @@ const Sidebar = ({
   return (
     <>
       {preloading.loading ? (
-        <div className="flex-loader">
-          <div className="loader" />
+        <div className={loader.flex_loader}>
+          <div className={loader.loader} />
         </div>
       ) : (
-        <ul onClick={onClick} className="sidebar">
+        <ul onClick={onClick} className={styles.sidebar}>
           {Array.isArray(items) &&
             !!items.length &&
             items.map((item, index) => (
@@ -59,11 +60,11 @@ const Sidebar = ({
                     id: item.id,
                     color: item.colorId,
                   });
-                  history.push(`/todo/types/${item.id}`);
+                  history.push(reverse(path.todoTypesId, { id: item.id }));
                 }}
               >
                 <div>
-                  <div className="colors">
+                  <div className={styles.colors}>
                     {item.icon ? (
                       item.icon
                     ) : (
@@ -79,13 +80,13 @@ const Sidebar = ({
                 </div>
                 {isRemovable && (
                   <div
-                    className="sidebar__remove-icon"
                     data-id={item.id}
+                    className={styles.sidebar__remove_icon}
                     onClick={handleOnClick}
                   >
                     <img
                       alt="remove button"
-                      src={ic}
+                      src={icon}
                       data-id={item.id}
                       width="14"
                       height="14"
@@ -105,8 +106,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  dispatchAddTask: fetchAddTask,
-  dispatchSetList: editList,
+  dispatchFetchRemoveList: fetchRemoveList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

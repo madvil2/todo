@@ -1,6 +1,7 @@
 import axios from "axios";
 import history from "../../utils/history.js";
 import showError from "../../utils/showError";
+import path from "../../utils/paths.js";
 import {
   REQUEST_SIGNUP_FAILURE,
   REQUEST_SIGNUP_SUCCESS,
@@ -56,9 +57,13 @@ export const fetchSignupUser = (username, email, password) => async (
 ) => {
   await dispatch(requestAction(true));
   try {
-    const { data } = await axios.post("/signup", { username, email, password });
+    const { data } = await axios.post(path.signup, {
+      username,
+      email,
+      password,
+    });
     await dispatch(requestSignupSuccess(data));
-    history.push("/login");
+    history.push(path.login);
   } catch (err) {
     dispatch(requestSignupFailure(err));
     if (err.response.status === 400) {
@@ -73,13 +78,13 @@ export const fetchSignupUser = (username, email, password) => async (
 export const fetchSigninUser = (username, password) => async (dispatch) => {
   await dispatch(requestAction(true));
   try {
-    const { data } = await axios.post("/login", {
+    const { data } = await axios.post(path.login, {
       username,
       password,
     });
     await dispatch(requestSigninSuccess(data));
     localStorage.setItem("token", data.token);
-    history.push("/todo");
+    history.push(path.todo);
   } catch (err) {
     dispatch(requestSigninFailure(err));
     if (err.response.status === 401) {

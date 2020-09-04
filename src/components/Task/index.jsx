@@ -4,9 +4,11 @@ import moment from "moment";
 import { removeTask, editTask } from "../../redux/actions/tasks";
 import { connect, useDispatch } from "react-redux";
 import { EditOutlined, CheckOutlined } from "@ant-design/icons";
-import "../TasksBoard/TasksBoard.scss";
+import styles from "../TasksBoard/TasksBoard.module.scss";
+import "../TasksBoard/TasksBoard.module.scss";
 import { fetchChangeTask, fetchDeleteTask } from "../../redux/actions/tasks.js";
 import classNames from "classnames";
+import icon from "../../assets/icon-close.png";
 
 const TasksBoard = ({ task, index }) => {
   const [status, setStatus] = React.useState("");
@@ -42,25 +44,25 @@ const TasksBoard = ({ task, index }) => {
   }, [task.date]);
 
   return (
-    <li className="tasks__items">
+    <li className={styles.tasks__items}>
       <Modal
         title="Edit task"
         visible={visible}
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
       >
-        <div className="task__items-edit">
+        <div className={styles.task__items_edit}>
           <p>Task text:</p>
           <Input
-            className="tasks__add-items__add-input"
+            className={styles.tasks__add_items__add_input}
             defaultValue={editText}
             value={editText}
             onChange={(event) => setEditText(event.target.value)}
           />
         </div>
-        <div className="task__items-edit">
+        <div className={styles.task__items_edit}>
           <p>Task date:</p>
-          <Space className="tasks__add-items__picker">
+          <Space className={styles.tasks__add_items__picker}>
             <DatePicker
               format="YYYY-MM-DD HH:mm:ss"
               showTime={{
@@ -76,30 +78,31 @@ const TasksBoard = ({ task, index }) => {
           </Space>
         </div>
       </Modal>
-      <div className="tasks__items-row">
+      <div className={styles.tasks__items_row}>
         <div
-          className={classNames("checkbox", {
-            warning: status === "warning" && !task.completed,
-            failed: status === "failed" && !task.completed,
+          className={classNames({
+            [styles.checkbox]: true,
+            [styles.warning]: status === "warning" && !task.completed,
+            [styles.failed]: status === "failed" && !task.completed,
           })}
         >
           <input id={`task-${index}`} type="checkbox" />
           <label
-            className={`${task.completed && "active"}`}
+            className={`${task.completed && styles.active}`}
             htmlFor={`task-${index}`}
             onClick={() => {
               changeStatus(task.id);
             }}
           >
-            <CheckOutlined className="mark" />
+            <CheckOutlined className={styles.mark} />
           </label>
         </div>
         <input readOnly value={task.title} />
-        <div className={`tasks__items-row-actions`}>
+        <div className={styles.tasks__items_row_actions}>
           <div onClick={() => setVisible(true)}>
             <EditOutlined />
           </div>
-          <div className="tasks__items-row-confirm">
+          <div className={styles.tasks__items_row_confirm}>
             <Popconfirm
               title="Are you sure want to delete this task?"
               onConfirm={() => dispatch(fetchDeleteTask(task.id))}
@@ -107,12 +110,7 @@ const TasksBoard = ({ task, index }) => {
               okText="Yes"
               cancelText="No"
             >
-              <img
-                alt="remove button"
-                src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-close-512.png"
-                width="14"
-                height="14"
-              />
+              <img alt="remove button" src={icon} width="14" height="14" />
             </Popconfirm>
           </div>
         </div>

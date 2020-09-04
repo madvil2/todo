@@ -8,6 +8,8 @@ import {
   FETCH_LIST_GROUP_SUCCESS,
   EDIT_LIST,
 } from "../../constants";
+import path from "../../utils/paths.js";
+import { reverse } from "named-urls/src";
 
 export function addList(list) {
   return {
@@ -51,71 +53,58 @@ export const fetchListGroupSuccess = () => {
   };
 };
 
-export const fetchGetListGroup = () => (dispatch) => {
-  dispatch(fetchListGroup(true));
-  createAxios()
-    .get("/types")
-    .then((res) => {
-      dispatch(createListGroup(res.data.types));
-      dispatch(fetchListGroupSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(requestSigninSuccess(false));
-        localStorage.removeItem("token");
-      }
-    });
+export const fetchGetListGroup = () => async (dispatch) => {
+  await dispatch(fetchListGroup(true));
+  try {
+    const { data } = await createAxios().get(path.types);
+    await dispatch(createListGroup(data.types));
+    await dispatch(fetchListGroupSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(requestSigninSuccess(false));
+      localStorage.removeItem("token");
+    }
+  }
 };
 
-export const fetchAddList = (name, colorId) => (dispatch) => {
-  dispatch(fetchListGroup(true));
-  createAxios()
-    .post("/types", {
-      name,
-      colorId,
-    })
-    .then((res) => {
-      dispatch(addList(res.data));
-      dispatch(fetchListGroupSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(fetchListGroup(false));
-        localStorage.removeItem("token");
-      }
-    });
-};
-
-export const fetchRemoveList = ({ id }) => (dispatch) => {
-  dispatch(fetchListGroup(true));
-  createAxios()
-    .delete(`/types/${id}`)
-    .then(() => {
-      dispatch(removeList({ id }));
-      dispatch(fetchListGroupSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(fetchListGroup(false));
-        localStorage.removeItem("token");
-      }
-    });
-};
-
-export const fetchChangeList = (id, title) => (dispatch) => {
-  dispatch(fetchListGroup(id));
-  createAxios()
-    .put(`/types/${id}`, {
-      name: title,
-    })
-    .then((res) => {
-      dispatch(editList(id, title));
+export const fetchAddList = (name, colorId) => async (dispatch) => {
+  await dispatch(fetchListGroup(true));
+  try {
+    const { data } = await createAxios().post(path.types, { name, colorId });
+    await dispatch(addList(data));
+    await dispatch(fetchListGroupSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
       dispatch(fetchListGroup(false));
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(fetchListGroup(false));
-        localStorage.removeItem("token");
-      }
-    });
+      localStorage.removeItem("token");
+    }
+  }
+};
+
+export const fetchRemoveList = ({ id }) => async (dispatch) => {
+  await dispatch(fetchListGroup(true));
+  try {
+    await createAxios().delete(reverse(path.typeId, { id }));
+    await dispatch(removeList({ id }));
+    await dispatch(fetchListGroupSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(fetchListGroup(false));
+      localStorage.removeItem("token");
+    }
+  }
+};
+
+export const fetchChangeList = (id, title) => async (dispatch) => {
+  await dispatch(fetchListGroup(id));
+  try {
+    await createAxios().put(reverse(path.typeId, { id }), { name: title });
+    await dispatch(editList(id, title));
+    await dispatch(fetchListGroup(false));
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(fetchListGroup(false));
+      localStorage.removeItem("token");
+    }
+  }
 };

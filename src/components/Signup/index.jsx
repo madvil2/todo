@@ -1,6 +1,8 @@
 import { Form, Input, Button } from "antd";
 import React from "react";
-import "../Signin/Signin.scss";
+import styles from "../Signin/Signin.module.scss";
+import loader from "../../index.module.scss";
+import path from "../../utils/paths.js";
 import { Link } from "react-router-dom";
 import { fetchSignupUser, requestAction } from "../../redux/actions/users.js";
 import { connect, useDispatch } from "react-redux";
@@ -28,14 +30,14 @@ const Signup = ({ user }) => {
   };
 
   return (
-    <div className="login-page">
+    <div className={styles.login_page}>
       {user.loading ? (
-        <div className="flex-loader">
-          <div className="loader" />
+        <div className={loader.flex_loader}>
+          <div className={loader.loader} />
         </div>
       ) : (
-        <div className="form">
-          <div className="register-form">
+        <div className={styles.form}>
+          <div className={styles.register_form}>
             <Form
               {...layout}
               name="basic"
@@ -44,7 +46,7 @@ const Signup = ({ user }) => {
               }}
               onFinish={onFinish}
             >
-              <form className="login-form">
+              <form className={styles.login_form}>
                 <Form.Item
                   label="Username"
                   name="username"
@@ -113,13 +115,17 @@ const Signup = ({ user }) => {
                   <Input.Password />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
-                  <Button type="primary" className="button" htmlType="submit">
+                  <Button
+                    type="primary"
+                    className={styles.button}
+                    htmlType="submit"
+                  >
                     Register
                   </Button>
                 </Form.Item>
-                <p className="message">
+                <p className={styles.message}>
                   Already registered?
-                  <Link to="/login"> Login</Link>
+                  <Link to={path.login}> Login</Link>
                 </p>
               </form>
             </Form>

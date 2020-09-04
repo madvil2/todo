@@ -2,7 +2,7 @@
   margin-bottom: 30px;
   $self: &;
 
-  &__add-button {
+  &__add_button {
     color: #767676;
     &:hover {
       color: #393939;
@@ -15,10 +15,10 @@
     cursor: pointer;
     padding: 10px 12px;
     transition: background-color 0.15s ease-in-out;
-    &:hover #{$self}__remove-icon {
+    &:hover #{$self}__remove_icon {
       opacity: 0.2;
     }
-    #{$self}__remove-icon {
+    #{$self}__remove_icon {
       position: absolute;
       right: 20px;
       opacity: 0;
@@ -32,6 +32,7 @@
     }
     span {
       flex: 1;
+      //padding-top: 10px;
     }
     &.active {
       background: #ffffff;

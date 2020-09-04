@@ -9,7 +9,10 @@ import { connect, useDispatch } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
 import showError from "../../utils/showError";
 
-import "./AddNewType.scss";
+import "./AddNewType.module.scss";
+import styles from "./AddNewType.module.scss";
+import badgeStyles from "../Badge/Badge.module.scss";
+import classNames from "classnames";
 
 const AddNewType = ({ colors }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
@@ -40,34 +43,41 @@ const AddNewType = ({ colors }) => {
   return (
     <div>
       <div
-        className="sidebar__add-button"
+        data-click="clickOutside"
+        className={styles.sidebar__add_button}
         onClick={() => setVisiblePopup(true)}
       >
         <div>
-          <div className="close">
+          <div className={styles.close}>
             <PlusOutlined />
           </div>
-          <span className="clickOutside">Add New Type</span>
+          <span data-click="clickOutside">Add New Type</span>
         </div>
       </div>
       {visiblePopup && (
-        <form className="add-new__popup" ref={ref} onSubmit={AddNew}>
+        <form className={styles.add_new__popup} ref={ref} onSubmit={AddNew}>
           <Input
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
             placeholder="Enter name"
           />
-          <div className="add-new__popup-colors">
+          <div className={styles.add_new__popup_colors}>
             {colors.map((color) => (
               <Badge
                 onClick={() => selectColor(color.id)}
                 key={color.id}
                 color={color.name}
-                className={selectedColor === color.id && "active"}
+                className={classNames(styles.badge, {
+                  [styles.badge_active]: selectedColor === color.id,
+                })}
               />
             ))}
           </div>
-          <button className="add-new__button" onClick={AddNew} type="primary">
+          <button
+            className={styles.add_new__button}
+            onClick={AddNew}
+            type="primary"
+          >
             Add new
           </button>
         </form>
@@ -76,4 +86,4 @@ const AddNewType = ({ colors }) => {
   );
 };
 
-export default connect(() => ({}), {})(AddNewType);
+export default AddNewType;

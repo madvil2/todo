@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BarsOutlined } from "@ant-design/icons";
 import { requestLogOut } from "./redux/actions/users.js";
 import { sortTasks } from "./redux/actions/tasks.js";
-import "./index.scss";
+import styles from "./index.module.scss";
 import { AddNewType, Sidebar, TasksBoard, Signin, Signup } from "./components";
-import { Route, useHistory, Switch, Redirect, Router } from "react-router-dom";
-import { connect, Provider } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import history from "./utils/history";
+import path from "./utils/paths.js";
+import { reverse } from "named-urls/src";
 
 function App({
   todos,
@@ -20,6 +22,12 @@ function App({
     id: 1,
     color: null,
   });
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    dispatchRequestAction(false);
+    setLogin(false);
+  };
 
   const [isLogin, setLogin] = useState(user.success);
   const [sort, setSort] = useState({ value: "" });
@@ -38,24 +46,24 @@ function App({
 
   return (
     <Switch>
-      <Route exact path="/">
+      <Route exact path={path.home}>
         {localStorage.getItem("token") ? (
-          <Redirect to="/todo" />
+          <Redirect to={path.todo} />
         ) : (
-          <Redirect to="/login" />
+          <Redirect to={path.login} />
         )}
       </Route>
 
-      <Route path="/login" component={Signin}>
-        {isLogin ? <Redirect to="/todo" /> : ""}
+      <Route path={path.login} component={Signin}>
+        {isLogin ? <Redirect to={path.todo} /> : ""}
       </Route>
-      <Route path="/register" component={Signup} />
-      <Route path="/todo">
-        {isLogin ? "" : <Redirect to="/login" />}
-        <div className="todo">
-          <div className="todo__sidebar">
+      <Route path={path.register} component={Signup} />
+      <Route path={path.todo}>
+        {isLogin ? "" : <Redirect to={path.login} />}
+        <div className={styles.todo}>
+          <div className={styles.todo__sidebar}>
             <Sidebar
-              onClick={() => history.push(`/todo`)}
+              onClick={() => history.push(path.todo)}
               items={[
                 {
                   icon: <BarsOutlined />,
@@ -68,7 +76,7 @@ function App({
             />
             <Sidebar
               onClickItem={(list) => {
-                history.push(`/todo/types/${list.id}`);
+                history.push(reverse(path.todoTypesId, list.id));
               }}
               items={lists}
               isRemovable
@@ -77,20 +85,18 @@ function App({
             />
             <AddNewType colors={colors} />
             <button
-              className="todo__sidebar__button"
+              className={styles.todo__sidebar__button}
               onClick={() => {
-                localStorage.removeItem("token");
-                dispatchRequestAction(false);
-                setLogin(false);
+                logout();
               }}
             >
               Logout
             </button>
           </div>
 
-          <div className="todo__tasks">
+          <div className={styles.todo__tasks}>
             <Switch>
-              <Route exact path="/todo">
+              <Route exact path={path.todo}>
                 {lists && (
                   <TasksBoard
                     todos={todos}
@@ -102,7 +108,7 @@ function App({
                   />
                 )}
               </Route>
-              <Route path="/todo/types">
+              <Route path={path.todoTypes}>
                 {lists && (
                   <TasksBoard
                     todos={todos}

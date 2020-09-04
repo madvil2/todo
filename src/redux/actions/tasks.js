@@ -1,5 +1,7 @@
 import { requestSigninSuccess } from "./users.js";
 import createAxios from "../../utils/request.js";
+import path from "../../utils/paths.js";
+import { reverse } from "named-urls/src";
 
 import {
   ADD_TASK,
@@ -85,85 +87,84 @@ export const fetchTaskListSuccess = () => {
   };
 };
 
-export const fetchGetTaskList = () => (dispatch) => {
-  dispatch(fetchTaskList(true));
-  createAxios()
-    .get("/todolist")
-    .then((res) => {
-      dispatch(createTaskList(res.data.tasks));
-      dispatch(fetchTaskListSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(requestSigninSuccess(false));
-        localStorage.removeItem("token");
-      }
-    });
-};
-
 export const fetchAddTaskSuccess = () => {
   return {
     type: FETCH_ADD_TASK_SUCCESS,
   };
 };
 
-export const fetchAddTask = ({ title, type, description, date, completed }) => (
-  dispatch
-) => {
-  dispatch(fetchTaskList(true));
-  createAxios()
-    .post("/todolist", {
+export const fetchGetTaskList = () => async (dispatch) => {
+  await dispatch(fetchTaskList(true));
+  try {
+    const { data } = await createAxios().get(path.todolist);
+    await dispatch(createTaskList(data.tasks));
+    await dispatch(fetchTaskListSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(requestSigninSuccess(false));
+      localStorage.removeItem("token");
+    }
+  }
+};
+
+export const fetchAddTask = ({
+  title,
+  type,
+  description,
+  date,
+  completed,
+}) => async (dispatch) => {
+  await dispatch(fetchTaskList(true));
+  try {
+    await dispatch(fetchTaskList(true));
+    const { data } = await createAxios().post(path.todolist, {
       title,
       type: type.toString(),
       description,
       date,
       completed,
-    })
-    .then((res) => {
-      dispatch(addTask(res.data));
-      dispatch(fetchTaskListSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(requestSigninSuccess(false));
-        localStorage.removeItem("token");
-      }
     });
+    await dispatch(addTask(data));
+    await dispatch(fetchTaskListSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(requestSigninSuccess(false));
+      localStorage.removeItem("token");
+    }
+  }
 };
 
-export const fetchChangeTask = (id, title, date, completed) => (dispatch) => {
-  dispatch(fetchTaskList(true));
-  createAxios()
-    .put(`/todolist/${id}`, {
+export const fetchChangeTask = (id, title, date, completed) => async (
+  dispatch
+) => {
+  await dispatch(fetchTaskList(true));
+  try {
+    await createAxios().put(reverse(path.todoId, { id }), {
       id,
       title,
       date,
       completed,
-    })
-    .then(() => {
-      dispatch(editTask(id, title, date, completed));
-      dispatch(fetchTaskListSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(requestSigninSuccess(false));
-        localStorage.removeItem("token");
-      }
     });
+    await dispatch(editTask(id, title, date, completed));
+    await dispatch(fetchTaskListSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(requestSigninSuccess(false));
+      localStorage.removeItem("token");
+    }
+  }
 };
 
-export const fetchDeleteTask = (id) => (dispatch) => {
-  dispatch(fetchTaskList(true));
-  createAxios()
-    .delete(`/todolist/${id}`)
-    .then(() => {
-      dispatch(removeTask({ id }));
-      dispatch(fetchTaskListSuccess());
-    })
-    .catch((err) => {
-      if (err.response.status === 401) {
-        dispatch(requestSigninSuccess(false));
-        localStorage.removeItem("token");
-      }
-    });
+export const fetchDeleteTask = (id) => async (dispatch) => {
+  await dispatch(fetchTaskList(true));
+  try {
+    await createAxios().delete(reverse(path.todoId, { id }));
+    await dispatch(removeTask({ id }));
+    await dispatch(fetchTaskListSuccess());
+  } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(requestSigninSuccess(false));
+      localStorage.removeItem("token");
+    }
+  }
 };
