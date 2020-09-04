@@ -6,21 +6,8 @@ import { Link } from "react-router-dom";
 import { fetchSigninUser, requestAction } from "../../redux/actions/users.js";
 import { connect, useDispatch } from "react-redux";
 import path from "../../utils/paths.js";
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-    span: 16,
-  },
-};
+import message from "../../utils/message.js";
+import { layout, tailLayout } from "../../utils/layout.js";
 
 const Signin = ({ user }) => {
   const dispatch = useDispatch();
@@ -50,24 +37,14 @@ const Signin = ({ user }) => {
                 <Form.Item
                   label="Username"
                   name="username"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your username!",
-                    },
-                  ]}
+                  rules={message.pleaseUsername}
                 >
                   <Input />
                 </Form.Item>
                 <Form.Item
                   label="Password"
                   name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your password!",
-                    },
-                  ]}
+                  rules={message.pleasePassword}
                 >
                   <Input.Password />
                 </Form.Item>

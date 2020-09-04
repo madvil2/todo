@@ -7,7 +7,7 @@ import {
   FETCH_LIST_GROUP,
   FETCH_LIST_GROUP_SUCCESS,
   EDIT_LIST,
-} from "../../constants";
+} from "../../utils/constants";
 import path from "../../utils/paths.js";
 import { reverse } from "named-urls/src";
 

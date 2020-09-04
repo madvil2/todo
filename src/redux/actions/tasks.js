@@ -14,7 +14,7 @@ import {
   FETCH_TASK_LIST_SUCCESS,
   FETCH_ADD_TASK_SUCCESS,
   SORT_TASKS,
-} from "../../constants";
+} from "../../utils/constants";
 
 export const sortTasks = (sort) => {
   return {

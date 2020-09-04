@@ -17,7 +17,7 @@ import {
   SORT_TASKS,
   ASCENDING,
   DESCENDING,
-} from "../../constants";
+} from "../../utils/constants";
 import moment from "moment";
 
 const fetchState = {

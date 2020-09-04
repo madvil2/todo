@@ -9,7 +9,7 @@ import {
   REQUEST_LOGOUT,
   REQUEST_ACTION,
   REQUEST_SIGNIN_FAILURE,
-} from "../../constants.js";
+} from "../../utils/constants.js";
 
 export const requestSignupSuccess = (data) => {
   return {
