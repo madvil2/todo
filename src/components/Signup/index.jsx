@@ -89,11 +89,9 @@ const Signup = ({ user }) => {
   );
 };
 
-const mapStateToProps = (initState) => {
-  return {
-    user: initState.users,
-  };
-};
+const mapStateToProps = (initState) => ({
+  user: initState.users,
+});
 
 const mapDispatchToProps = {
   dispatchRequestAction: requestAction,

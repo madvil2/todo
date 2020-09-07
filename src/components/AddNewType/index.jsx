@@ -5,13 +5,12 @@ import "antd/dist/antd.css";
 import { fetchAddList } from "../../redux/actions/lists.js";
 import { Badge } from "../";
 
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import useOutsideClick from "../../utils/clickOutside";
 import showError from "../../utils/showError";
 
 import "./AddNewType.module.scss";
 import styles from "./AddNewType.module.scss";
-import badgeStyles from "../Badge/Badge.module.scss";
 import classNames from "classnames";
 
 const AddNewType = ({ colors }) => {

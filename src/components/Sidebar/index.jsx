@@ -101,9 +101,10 @@ const Sidebar = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return { colors: state.todos.colors, preloading: state.fetchLists };
-};
+const mapStateToProps = (state) => ({
+  colors: state.todos.colors,
+  preloading: state.fetchLists,
+});
 
 const mapDispatchToProps = {
   dispatchFetchRemoveList: fetchRemoveList,

@@ -8,6 +8,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import history from "./utils/history";
 import path from "./utils/paths.js";
+import "./app.scss";
 import { reverse } from "named-urls/src";
 
 function App({
@@ -15,7 +16,7 @@ function App({
   lists,
   colors,
   user,
-  dispatchRequestAction,
+  dispatchLogOut,
   dispatchSortTasks,
 }) {
   const [activeGroup, setActiveGroup] = useState({
@@ -25,7 +26,7 @@ function App({
 
   const logout = () => {
     localStorage.removeItem("token");
-    dispatchRequestAction(false);
+    dispatchLogOut(false);
     setLogin(false);
   };
 
@@ -137,7 +138,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  dispatchRequestAction: requestLogOut,
+  dispatchLogOut: requestLogOut,
   dispatchSortTasks: sortTasks,
 };
 

@@ -2,18 +2,17 @@ import { Form, Input, Button, Checkbox } from "antd";
 import React from "react";
 import styles from "./Signin.module.scss";
 import loader from "../../index.module.scss";
+import "../../index.module.scss";
 import { Link } from "react-router-dom";
-import { fetchSigninUser, requestAction } from "../../redux/actions/users.js";
-import { connect, useDispatch } from "react-redux";
+import { fetchSigninUser } from "../../redux/actions/users.js";
+import { connect } from "react-redux";
 import path from "../../utils/paths.js";
 import message from "../../utils/message.js";
 import { layout, tailLayout } from "../../utils/layout.js";
 
-const Signin = ({ user }) => {
-  const dispatch = useDispatch();
-
+const Signin = ({ user, dispatchFetchSigninUser }) => {
   const onFinish = (values) => {
-    dispatch(fetchSigninUser(values.username, values.password));
+    dispatchFetchSigninUser(values.username, values.password);
   };
 
   return (
@@ -77,14 +76,12 @@ const Signin = ({ user }) => {
   );
 };
 
-const mapStateToProps = (initState) => {
-  return {
-    user: initState.users,
-  };
-};
+const mapStateToProps = (initState) => ({
+  user: initState.users,
+});
 
 const mapDispatchToProps = {
-  dispatchRequestAction: requestAction,
+  dispatchFetchSigninUser: fetchSigninUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin);
