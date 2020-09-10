@@ -28,7 +28,6 @@ const Sidebar = ({
 
   useEffect(() => {
     const listId = history.location.pathname.split(path.todoTypes)[1];
-
     if (items) {
       const list = items.find((list) => list.id === listId);
       if (list) {
@@ -53,7 +52,7 @@ const Sidebar = ({
               <li
                 key={index}
                 className={classNames(item.className, {
-                  active: activeGroup.id === item.id,
+                  [styles.active]: activeGroup.id === item.id,
                 })}
                 onClick={() => {
                   changeActiveGroup({

@@ -8,6 +8,6 @@ export default {
   todo: "/todo",
   register: "/register",
   home: "/",
-  todoTypes: "/todo/types",
+  todoTypes: "/todo/types/",
   todoTypesId: "/todo/types/:id",
 };
