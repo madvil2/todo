@@ -12,5 +12,5 @@
 ![add type](./images/addType.png)
 ##Backend
 
-I'm not doing backend so special thanks to Katya \n
-Link: https://github.com/zharovova/ToDo_server
+I'm not doing backend so special thanks to
+[Katya](https://github.com/zharovova/ToDo_server)
